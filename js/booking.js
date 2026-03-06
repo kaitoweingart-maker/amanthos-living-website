@@ -533,6 +533,15 @@ if (bookingSection) bookingSection.style.display = 'none';
 if (bookingStatus) bookingStatus.style.display = 'none';
 var paymentStep = document.getElementById('paymentStep');
 if (paymentStep) paymentStep.remove();
+// Re-show form sections hidden during booking confirmation
+if (guestForm) {
+var formGrid = guestForm.querySelector('.form-grid');
+if (formGrid) formGrid.style.display = '';
+var formActions = guestForm.querySelector('.form-actions');
+if (formActions) formActions.style.display = '';
+var promoSection = guestForm.querySelector('.promo-code-section');
+if (promoSection) promoSection.style.display = '';
+}
 // Clear guest form fields
 var formFields = guestForm ? guestForm.querySelectorAll('input, select, textarea') : [];
 for (var i = 0; i < formFields.length; i++) {

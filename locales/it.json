@@ -86,7 +86,14 @@
     "promo_apply": "Applica",
     "promo_enter": "Inserisci un codice promozionale.",
     "promo_applied": "Codice promozionale applicato!",
-    "promo_invalid": "Codice promozionale non valido."
+    "promo_invalid": "Codice promozionale non valido.",
+    "cancelled_title": "Prenotazione annullata",
+    "cancelled_no_payment": "Il pagamento non è stato completato. La tua prenotazione è stata annullata.",
+    "cancelled_rebook": "Puoi effettuare una nuova prenotazione in qualsiasi momento.",
+    "search_again": "Cerca di nuovo",
+    "waiting_for_payment": "In attesa del pagamento...",
+    "payment_success": "Pagamento riuscito — Prenotazione confermata!",
+    "confirmation_email_sent": "Un'e-mail di conferma ti è stata inviata."
   },
   "social_proof": {
     "happy_guests": "Ospiti soddisfatti",

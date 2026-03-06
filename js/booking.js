@@ -523,6 +523,23 @@ paymentSection.innerHTML = html;
 var rebookBtn = document.getElementById('rebookBtn');
 if (rebookBtn) {
 rebookBtn.addEventListener('click', function () {
+// Reset entire booking process
+selectedOffer = null;
+currentOffers = [];
+appliedPromo = null;
+if (guestForm) guestForm.style.display = 'none';
+if (offersGrid) offersGrid.innerHTML = '';
+if (bookingSection) bookingSection.style.display = 'none';
+if (bookingStatus) bookingStatus.style.display = 'none';
+var paymentStep = document.getElementById('paymentStep');
+if (paymentStep) paymentStep.remove();
+// Clear guest form fields
+var formFields = guestForm ? guestForm.querySelectorAll('input, select, textarea') : [];
+for (var i = 0; i < formFields.length; i++) {
+if (formFields[i].type === 'checkbox') formFields[i].checked = false;
+else formFields[i].value = '';
+}
+// Scroll to booking bar
 var bb = document.getElementById('bookingBar') || document.getElementById('bb-location');
 if (bb) bb.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });

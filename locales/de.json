@@ -86,7 +86,14 @@
     "promo_apply": "Einlösen",
     "promo_enter": "Bitte geben Sie einen Aktionscode ein.",
     "promo_applied": "Aktionscode angewendet!",
-    "promo_invalid": "Ungültiger Aktionscode."
+    "promo_invalid": "Ungültiger Aktionscode.",
+    "cancelled_title": "Reservierung storniert",
+    "cancelled_no_payment": "Die Zahlung wurde nicht abgeschlossen. Ihre Reservierung wurde storniert.",
+    "cancelled_rebook": "Sie können jederzeit eine neue Reservierung vornehmen.",
+    "search_again": "Erneut suchen",
+    "waiting_for_payment": "Warte auf Zahlung...",
+    "payment_success": "Zahlung erfolgreich — Reservierung bestätigt!",
+    "confirmation_email_sent": "Eine Bestätigungsmail wurde an Sie gesendet."
   },
   "social_proof": {
     "happy_guests": "Zufriedene G\u00e4ste",

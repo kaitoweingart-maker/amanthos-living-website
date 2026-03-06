@@ -86,7 +86,14 @@
     "promo_apply": "应用",
     "promo_enter": "请输入优惠码。",
     "promo_applied": "优惠码已应用！",
-    "promo_invalid": "无效的优惠码。"
+    "promo_invalid": "无效的优惠码。",
+    "cancelled_title": "预订已取消",
+    "cancelled_no_payment": "付款未完成。您的预订已被取消。",
+    "cancelled_rebook": "您可以随时重新预订。",
+    "search_again": "重新搜索",
+    "waiting_for_payment": "等待付款中...",
+    "payment_success": "付款成功 — 预订已确认！",
+    "confirmation_email_sent": "确认邮件已发送给您。"
   },
   "social_proof": {
     "happy_guests": "满意住客",

@@ -86,7 +86,14 @@
     "promo_apply": "Apply",
     "promo_enter": "Please enter a promo code.",
     "promo_applied": "Promo code applied!",
-    "promo_invalid": "Invalid promo code."
+    "promo_invalid": "Invalid promo code.",
+    "cancelled_title": "Reservation Cancelled",
+    "cancelled_no_payment": "Payment was not completed. Your reservation has been cancelled.",
+    "cancelled_rebook": "You can make a new reservation at any time.",
+    "search_again": "Search Again",
+    "waiting_for_payment": "Waiting for payment...",
+    "payment_success": "Payment Successful — Reservation Confirmed!",
+    "confirmation_email_sent": "A confirmation email has been sent to you."
   },
   "social_proof": {
     "happy_guests": "Happy Guests",

@@ -86,7 +86,14 @@
     "promo_apply": "適用",
     "promo_enter": "プロモコードを入力してください。",
     "promo_applied": "プロモコードが適用されました！",
-    "promo_invalid": "無効なプロモコードです。"
+    "promo_invalid": "無効なプロモコードです。",
+    "cancelled_title": "予約がキャンセルされました",
+    "cancelled_no_payment": "お支払いが完了しませんでした。ご予約はキャンセルされました。",
+    "cancelled_rebook": "いつでも新しい予約ができます。",
+    "search_again": "再検索",
+    "waiting_for_payment": "お支払いを待っています...",
+    "payment_success": "お支払い完了 — ご予約が確定しました！",
+    "confirmation_email_sent": "確認メールが送信されました。"
   },
   "social_proof": {
     "happy_guests": "満足のゲスト",

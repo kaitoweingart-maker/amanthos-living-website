@@ -86,7 +86,14 @@
     "promo_apply": "적용",
     "promo_enter": "프로모션 코드를 입력하세요.",
     "promo_applied": "프로모션 코드가 적용되었습니다!",
-    "promo_invalid": "유효하지 않은 프로모션 코드입니다."
+    "promo_invalid": "유효하지 않은 프로모션 코드입니다.",
+    "cancelled_title": "예약이 취소되었습니다",
+    "cancelled_no_payment": "결제가 완료되지 않았습니다. 예약이 취소되었습니다.",
+    "cancelled_rebook": "언제든지 새로운 예약을 할 수 있습니다.",
+    "search_again": "다시 검색",
+    "waiting_for_payment": "결제 대기 중...",
+    "payment_success": "결제 완료 — 예약이 확정되었습니다!",
+    "confirmation_email_sent": "확인 이메일이 발송되었습니다."
   },
   "social_proof": {
     "happy_guests": "만족 고객",

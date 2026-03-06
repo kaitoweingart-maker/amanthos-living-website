@@ -494,6 +494,59 @@ paymentSection.innerHTML = html;
 paymentSection.style.display = 'block';
 paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+function cancelUnpaidBooking(reservationId, bookingId, paymentSection) {
+fetch(API_BASE + '/api/cancel-booking', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ reservationId: reservationId, bookingId: bookingId }),
+mode: 'cors',
+})
+.then(function (res) { return res.json(); })
+.then(function (data) {
+if (data.cancelled) {
+// Reservation was cancelled — show cancellation message
+var html = '';
+html += '<div class="payment-step-success" style="border-left:4px solid #DC2626;background:#FEF2F2;">';
+html += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+html += '<div>';
+html += '<h4 style="color:#991B1B;">' + (window.t ? window.t('booking.cancelled_title') : 'Reservation Cancelled') + '</h4>';
+html += '<p style="font-size:.85rem;color:#DC2626;margin-top:.25rem;">' + (window.t ? window.t('booking.cancelled_no_payment') : 'Payment was not completed. Your reservation has been cancelled.') + '</p>';
+html += '</div>';
+html += '</div>';
+html += '<div class="payment-step-action" style="text-align:center;padding:1.5rem;">';
+html += '<p style="font-weight:500;color:var(--color-text);margin-bottom:1rem;">' + (window.t ? window.t('booking.cancelled_rebook') : 'You can make a new reservation at any time.') + '</p>';
+html += '<button class="btn btn-accent btn-lg" id="rebookBtn" style="font-size:1rem;padding:.85rem 2rem;cursor:pointer;border:none;">';
+html += (window.t ? window.t('booking.search_again') : 'Search Again');
+html += '</button>';
+html += '</div>';
+paymentSection.innerHTML = html;
+var rebookBtn = document.getElementById('rebookBtn');
+if (rebookBtn) {
+rebookBtn.addEventListener('click', function () {
+var bb = document.getElementById('bookingBar') || document.getElementById('bb-location');
+if (bb) bb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+}
+gtmPush('booking_cancelled_no_payment', { booking_id: bookingId, reservation_id: reservationId });
+} else if (data.reason === 'paid') {
+// Payment was actually completed — show success
+var html = '';
+html += '<div class="payment-step-success" style="border-left:4px solid #059669;background:#ECFDF5;">';
+html += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+html += '<div>';
+html += '<h4 style="color:#065F46;">' + (window.t ? window.t('booking.payment_success') : 'Payment Successful — Reservation Confirmed!') + '</h4>';
+html += '<p style="font-size:.85rem;color:#059669;margin-top:.25rem;">' + (window.t ? window.t('booking.confirmation_email_sent') : 'A confirmation email has been sent to you.') + '</p>';
+html += '</div>';
+html += '</div>';
+paymentSection.innerHTML = html;
+gtmPush('payment_completed', { booking_id: bookingId });
+}
+// else: error or already cancelled — leave UI as-is
+})
+.catch(function (err) {
+console.error('Cancel booking error:', err);
+});
+}
 function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
 gtmPush('payment_initiated', { booking_id: confirmationId });
 if (bookingStatus) bookingStatus.style.display = 'none';
@@ -507,6 +560,7 @@ var totalText = '';
 if (selectedOffer && selectedOffer.totalGrossAmount) {
 totalText = selectedOffer.totalGrossAmount.currency + ' ' + selectedOffer.totalGrossAmount.amount.toFixed(2);
 }
+var reservationId = bookingData.reservationId || '';
 var html = '';
 html += '<div class="payment-step-success" style="border-left:4px solid #F59E0B;background:#FFFBEB;">';
 html += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
@@ -524,10 +578,10 @@ html += '<p class="payment-instruction" style="font-weight:500;color:var(--color
 if (totalText) {
 html += '<p style="font-size:1.8rem;font-weight:800;color:var(--color-primary);font-family:var(--font-heading);margin:.75rem 0;letter-spacing:-.5px;">' + escapeHtml(totalText) + '</p>';
 }
-html += '<a href="' + escapeHtml(paymentLink) + '" target="_blank" rel="noopener" class="btn btn-accent btn-lg payment-btn" style="font-size:1.1rem;padding:1rem 2.5rem;font-weight:700;">';
+html += '<button id="payNowBtn" class="btn btn-accent btn-lg payment-btn" style="font-size:1.1rem;padding:1rem 2.5rem;font-weight:700;cursor:pointer;border:none;">';
 html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>';
 html += ' ' + escapeHtml(payBtnText);
-html += '</a>';
+html += '</button>';
 html += '<p class="payment-secure-note" style="margin-top:1rem;">';
 html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ';
 html += escapeHtml(secureNote);
@@ -537,6 +591,28 @@ html += '</div>';
 paymentSection.innerHTML = html;
 paymentSection.style.display = 'block';
 paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+// Open payment in popup and monitor for close
+var payBtn = document.getElementById('payNowBtn');
+if (payBtn) {
+payBtn.addEventListener('click', function () {
+var popup = window.open(paymentLink, 'amanthos_payment', 'width=900,height=700,scrollbars=yes,resizable=yes');
+if (!popup || popup.closed) {
+// Popup blocked — fall back to new tab
+window.open(paymentLink, '_blank');
+return;
+}
+payBtn.disabled = true;
+payBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .7s linear infinite"><circle cx="12" cy="12" r="10"/></svg> ' + (window.t ? window.t('booking.waiting_for_payment') : 'Waiting for payment...');
+// Poll every 2 seconds to check if popup was closed
+var pollTimer = setInterval(function () {
+if (popup.closed) {
+clearInterval(pollTimer);
+// Popup closed — check if payment was made, cancel if not
+cancelUnpaidBooking(reservationId, confirmationId, paymentSection);
+}
+}, 2000);
+});
+}
 }
 function showPaymentRetry(confirmationId, email, bookingData) {
 if (bookingStatus) bookingStatus.style.display = 'none';

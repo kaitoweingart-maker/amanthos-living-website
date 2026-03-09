@@ -258,13 +258,23 @@
           <label for="bb-checkout" data-i18n="hero.booking_checkout_label">Check-out</label>
           <input type="date" id="bb-checkout" aria-label="Check-out date">
         </div>
-        <div class="booking-field">
-          <label for="bb-guests" data-i18n="hero.booking_guests_label">Guests</label>
-          <select id="bb-guests" aria-label="Number of guests">
-            <option value="1" data-i18n="common.guest_1">1 Guest</option>
-            <option value="2" selected data-i18n="common.guest_2">2 Guests</option>
-            <option value="3" data-i18n="common.guest_3">3 Guests</option>
-            <option value="4" data-i18n="common.guest_4">4 Guests</option>
+        <div class="booking-field booking-field-narrow">
+          <label for="bb-guests" data-i18n="hero.booking_adults_label">Adults</label>
+          <select id="bb-guests" aria-label="Number of adults">
+            <option value="1" data-i18n="common.adult_1">1 Adult</option>
+            <option value="2" selected data-i18n="common.adult_2">2 Adults</option>
+            <option value="3" data-i18n="common.adult_3">3 Adults</option>
+            <option value="4" data-i18n="common.adult_4">4 Adults</option>
+          </select>
+        </div>
+        <div class="booking-field booking-field-narrow">
+          <label for="bb-children" data-i18n="hero.booking_children_label">Children</label>
+          <select id="bb-children" aria-label="Number of children">
+            <option value="0" selected data-i18n="common.children_0">0</option>
+            <option value="1" data-i18n="common.children_1">1 Child</option>
+            <option value="2" data-i18n="common.children_2">2 Children</option>
+            <option value="3" data-i18n="common.children_3">3 Children</option>
+            <option value="4" data-i18n="common.children_4">4 Children</option>
           </select>
         </div>
         <button class="booking-search-btn" id="bookingSearchBtn" aria-label="Search availability">

@@ -91,10 +91,12 @@ var location = document.getElementById('bb-location');
 var checkin = document.getElementById('bb-checkin');
 var checkout = document.getElementById('bb-checkout');
 var guests = document.getElementById('bb-guests');
+var childrenEl = document.getElementById('bb-children');
 var locationVal = location ? location.value : '';
 var checkinVal = checkin ? checkin.value : '';
 var checkoutVal = checkout ? checkout.value : '';
 var guestsVal = guests ? guests.value : '2';
+var childrenVal = childrenEl ? childrenEl.value : '0';
 if (!locationVal) { showValidation(location, window.t ? window.t('booking.validation_select_location') : 'Please select a location.'); return; }
 if (!checkinVal) { showValidation(checkin, window.t ? window.t('booking.validation_select_checkin') : 'Please select a check-in date.'); return; }
 if (!checkoutVal) { showValidation(checkout, window.t ? window.t('booking.validation_select_checkout') : 'Please select a check-out date.'); return; }
@@ -104,12 +106,14 @@ propertyId: locationVal,
 arrival: checkinVal,
 departure: checkoutVal,
 adults: guestsVal,
+children: childrenVal,
 };
 gtmPush('search_availability', {
 location: PROPERTIES[locationVal] ? PROPERTIES[locationVal].name : locationVal,
 check_in: checkinVal,
 check_out: checkoutVal,
-guests: guestsVal
+guests: guestsVal,
+children: childrenVal
 });
 fetchOffers();
 });
@@ -221,8 +225,14 @@ var propName = PROPERTIES[data.property] ? PROPERTIES[data.property].name : data
 html += '<div class="offers-summary">';
 html += '<h3>' + escapeHtml(propName) + '</h3>';
 var nightLabel = nights === 1 ? (window.t ? window.t('booking.night') : 'night') : (window.t ? window.t('booking.nights') : 'nights');
-var guestLabel = data.adults === 1 ? (window.t ? window.t('booking.guest_singular') : 'guest') : (window.t ? window.t('booking.guests_plural') : 'guests');
-html += '<p>' + escapeHtml(data.arrival) + ' &rarr; ' + escapeHtml(data.departure) + ' &middot; ' + nights + ' ' + nightLabel + ' &middot; ' + data.adults + ' ' + guestLabel + '</p>';
+var adultLabel = data.adults == 1 ? (window.t ? window.t('booking.adult_singular') : 'adult') : (window.t ? window.t('booking.adults_plural') : 'adults');
+var childrenCount = parseInt(searchParams.children) || 0;
+var guestSummary = data.adults + ' ' + adultLabel;
+if (childrenCount > 0) {
+var childLabel = childrenCount === 1 ? (window.t ? window.t('booking.child_singular') : 'child') : (window.t ? window.t('booking.children_plural') : 'children');
+guestSummary += ' + ' + childrenCount + ' ' + childLabel;
+}
+html += '<p>' + escapeHtml(data.arrival) + ' &rarr; ' + escapeHtml(data.departure) + ' &middot; ' + nights + ' ' + nightLabel + ' &middot; ' + guestSummary + '</p>';
 var viewerCount = Math.floor(Math.random() * 8) + 3;
 var lookingMsg = window.t ? window.t('booking.people_looking', { n: viewerCount, loc: escapeHtml(PROPERTIES[data.property] ? PROPERTIES[data.property].short : '') }) : viewerCount + ' people are looking at ' + escapeHtml(PROPERTIES[data.property] ? PROPERTIES[data.property].short : '') + ' right now';
 html += '<p class="offers-urgency"><span class="urgency-dot"></span> ' + lookingMsg + '</p>';

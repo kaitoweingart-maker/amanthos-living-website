@@ -131,6 +131,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
+  <!-- Inline Booking Engine -->
+  <section class="section" id="book" style="background:linear-gradient(135deg,#FAF8F5,#F3EDE7);">
+    <div class="container" style="text-align:center;">
+      <p class="section-label">Book Now</p>
+      <h2 class="section-title">Book Your Stay in Nyon</h2>
+      <p class="section-subtitle">12 exclusive apartments with Alpine panoramas. Book directly for the best rates.</p>
+
+      <!-- Hero-style Booking Bar (location pre-set) -->
+      <div class="hero-booking" id="bookingBar" style="margin:1.5rem auto 0;">
+        <input type="hidden" id="bb-location" value="NYAL">
+        <input type="hidden" id="bb-children" value="0">
+        <!-- Date range -->
+        <div class="hero-bb-field hero-bb-dates" id="daterangeWrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span id="daterangeLabel" data-i18n="booking_bar.set_dates">Set Dates</span>
+        </div>
+        <div class="hero-bb-divider"></div>
+        <!-- Guests -->
+        <div class="hero-bb-field hero-bb-guests" id="guestsWrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          <span id="guestsLabel">2 Adults</span>
+        </div>
+        <!-- Hidden inputs -->
+        <input type="hidden" id="bb-guests" value="2">
+        <input type="hidden" id="bb-checkin" data-date="">
+        <input type="hidden" id="bb-checkout" data-date="">
+        <span class="nights-badge" id="nightsBadge"></span>
+        <button class="hero-bb-search" id="bookingSearchBtn" data-i18n="booking_bar.search_btn">SEARCH</button>
+      </div>
+
+      <!-- Trust line -->
+      <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;">
+        <span style="font-size:.75rem;color:var(--color-text-muted);display:flex;align-items:center;gap:.35rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Best price guaranteed
+        </span>
+        <span style="font-size:.75rem;color:var(--color-text-muted);display:flex;align-items:center;gap:.35rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Free cancellation available
+        </span>
+        <span style="font-size:.75rem;color:var(--color-text-muted);display:flex;align-items:center;gap:.35rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Instant confirmation
+        </span>
+      </div>
+    </div>
+  </section>
+
   <!-- Photo Gallery -->
   <section id="gallery" class="section">
     <div class="container">
@@ -296,45 +344,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- Inline Booking Engine -->
-  <section class="section" id="book" style="background:linear-gradient(135deg,#FAF8F5,#F3EDE7);">
-    <div class="container">
-      <p class="section-label">Book Now</p>
-      <h2 class="section-title">Book Your Stay in Nyon</h2>
-      <p class="section-subtitle">12 exclusive apartments with Alpine panoramas. Book directly for the best rates.</p>
-
-      <div style="max-width:700px;margin:0 auto;">
-        <div style="background:var(--color-surface);border-radius:var(--radius-lg);padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,.06);">
-          <div style="display:none;"><select id="bb-location"><option value="NYAL" selected>Nyon / Duillier</option></select></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
-            <div class="booking-field">
-              <label for="bb-checkin">Check-in</label>
-              <input type="date" id="bb-checkin" aria-label="Check-in date">
-            </div>
-            <div class="booking-field">
-              <label for="bb-checkout">Check-out</label>
-              <input type="date" id="bb-checkout" aria-label="Check-out date">
-            </div>
-            <div class="booking-field">
-              <label for="bb-guests">Guests</label>
-              <select id="bb-guests" aria-label="Number of guests">
-                <option value="1">1 Guest</option>
-                <option value="2" selected>2 Guests</option>
-                <option value="3">3 Guests</option>
-                <option value="4">4 Guests</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn btn-accent btn-lg" id="bookingSearchBtn" style="width:100%;margin-top:1rem;text-align:center;justify-content:center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Check Prices for Nyon
-          </button>
-          <p style="text-align:center;font-size:.72rem;color:var(--color-text-muted);margin-top:.5rem;">Best price guaranteed &middot; Free cancellation available &middot; Instant confirmation</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Booking Results (hidden) -->
   <section class="section booking-results" id="booking" style="display:none">
     <div class="container">
@@ -344,6 +353,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p>Finding the best rates for you...</p>
       </div>
       <div id="offersGrid" class="offers-grid"></div>
+      <!-- Upselling Extras -->
+      <div id="upsellSection" class="upsell-section" style="display:none">
+        <h3 class="upsell-title">Enhance Your Stay</h3>
+        <p class="upsell-subtitle">Add extras to make your stay even more comfortable.</p>
+
+        <!-- Room Upgrade -->
+        <div id="upsellUpgrade" class="upsell-upgrade" style="display:none">
+          <h4 class="upsell-category-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Upgrade Your Room
+          </h4>
+          <div id="upsellUpgradeCards" class="upsell-upgrade-cards"></div>
+        </div>
+
+        <!-- Extras Add-ons -->
+        <h4 class="upsell-category-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Add Extras
+        </h4>
+        <div class="upsell-extras-grid">
+          <label class="upsell-extra-card" for="extra-parking">
+            <div class="upsell-extra-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2"/><circle cx="5.5" cy="18" r="2.5"/><circle cx="18.5" cy="18" r="2.5"/></svg>
+            </div>
+            <div class="upsell-extra-info">
+              <strong>Parking</strong>
+              <span class="upsell-extra-desc">Private on-site parking space</span>
+              <span class="upsell-extra-price">CHF 7.50 / day</span>
+            </div>
+            <div class="upsell-extra-toggle">
+              <input type="checkbox" id="extra-parking" data-extra="parking" data-price="7.5">
+              <span class="upsell-toggle-slider"></span>
+            </div>
+          </label>
+
+          <label class="upsell-extra-card" for="extra-towels">
+            <div class="upsell-extra-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/></svg>
+            </div>
+            <div class="upsell-extra-info">
+              <strong>Extra Towels</strong>
+              <span class="upsell-extra-desc">Additional set of premium bath towels</span>
+              <span class="upsell-extra-price">CHF 5 / night</span>
+            </div>
+            <div class="upsell-extra-toggle">
+              <input type="checkbox" id="extra-towels" data-extra="towels" data-price="5">
+              <span class="upsell-toggle-slider"></span>
+            </div>
+          </label>
+
+          <label class="upsell-extra-card" for="extra-pillows">
+            <div class="upsell-extra-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5"><path d="M2 4l2 2h16l2-2"/><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M12 6v12"/></svg>
+            </div>
+            <div class="upsell-extra-info">
+              <strong>Extra Pillow &amp; Blankets</strong>
+              <span class="upsell-extra-desc">Additional pillow and cozy blanket set</span>
+              <span class="upsell-extra-price">CHF 10 / night</span>
+            </div>
+            <div class="upsell-extra-toggle">
+              <input type="checkbox" id="extra-pillows" data-extra="pillows" data-price="10">
+              <span class="upsell-toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+
+        <div class="upsell-total" id="upsellTotal" style="display:none">
+          <div class="upsell-total-inner">
+            <span>Extras total:</span>
+            <strong id="upsellTotalAmount">CHF 0</strong>
+            <span class="upsell-total-per-night" id="upsellPerNight"></span>
+          </div>
+        </div>
+
+        <button class="btn btn-accent btn-lg upsell-continue-btn" id="upsellContinueBtn">
+          Continue to Booking Details &rarr;
+        </button>
+      </div>
       <div id="guestForm" class="guest-form" style="display:none">
         <h3>Complete Your Reservation</h3>
         <p class="guest-form-reassurance">

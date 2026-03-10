@@ -24,7 +24,6 @@ function gtmPush(event, data) {
 // Promo code configuration
 var PROMO_CODES = {
   'DM23102901TEST100BBPR': { discount: 1.0, label: '100%' },
-  'AMANTHOS100': { discount: 1.0, label: '100%' },
 };
 var appliedPromo = null;
 

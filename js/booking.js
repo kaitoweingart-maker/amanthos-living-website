@@ -56,6 +56,8 @@ requestIdleCallback(wakeBackend);
 } else {
 setTimeout(wakeBackend, 3000);
 }
+// Keep backend alive: ping every 10 minutes while page is open
+window.addEventListener('load', function() { setInterval(wakeBackend, 10 * 60 * 1000); });
 // Inline validation on blur for guest form fields
 ['guest-first', 'guest-last', 'guest-email'].forEach(function (id) {
 var field = document.getElementById(id);
@@ -151,6 +153,10 @@ for (var i = 0; i < keys.length; i++) {
 if (i > 0) query += '&';
 query += encodeURIComponent(keys[i]) + '=' + encodeURIComponent(searchParams[keys[i]]);
 }
+var retryCount = 0;
+var maxRetries = 8;
+var retryDelay = 4000;
+function attemptFetch() {
 fetch(API_BASE + '/api/offers?' + query, { mode: 'cors' })
 .then(function (res) {
 if (!res.ok) {
@@ -176,6 +182,22 @@ return;
 renderOffers(data);
 })
 .catch(function (err) {
+if (err.message && err.message.indexOf('Failed to fetch') !== -1 && retryCount < maxRetries) {
+retryCount++;
+var elapsed = retryCount * retryDelay / 1000;
+var wakingMsg = window.t ? window.t('booking.server_waking_auto') || 'Waking up our booking server... retrying automatically.' : 'Waking up our booking server... retrying automatically.';
+var progressMsg = window.t ? window.t('booking.retry_attempt', {n: retryCount, max: maxRetries}) : 'Attempt ' + retryCount + ' of ' + maxRetries;
+offersGrid.innerHTML = '<div class="no-offers" style="padding:2rem;text-align:center;">' +
+  '<div class="spinner"></div>' +
+  '<p style="font-size:.95rem;color:var(--color-text);margin-top:.75rem;font-weight:500;">' + wakingMsg + '</p>' +
+  '<p style="font-size:.8rem;color:var(--color-text-muted);margin-top:.5rem;">' + progressMsg + '</p>' +
+  '<div style="margin-top:1rem;background:var(--color-border);border-radius:4px;height:6px;max-width:200px;margin-left:auto;margin-right:auto;overflow:hidden;">' +
+  '<div style="height:100%;background:var(--color-accent);border-radius:4px;width:' + Math.round((retryCount / maxRetries) * 100) + '%;transition:width .3s;"></div>' +
+  '</div>' +
+  '</div>';
+setTimeout(attemptFetch, retryDelay);
+return;
+}
 offersLoading.style.display = 'none';
 var msg = window.t ? window.t('booking.unable_to_check') : 'Unable to check availability right now.';
 if (err.message && err.message.indexOf('Failed to fetch') !== -1) {
@@ -215,8 +237,10 @@ noOffersDiv.appendChild(retryBtn);
 offersGrid.innerHTML = '';
 offersGrid.appendChild(noOffersDiv);
 gtmPush('booking_error', { error_message: err.message || 'Unknown error', step: 'fetch_offers' });
-console.error('Offers error:', err);
+// error handled above
 });
+}
+attemptFetch();
 }
 function renderOffers(data) {
 var html = '';
@@ -441,7 +465,7 @@ showStatus('error', data.error || (window.t ? window.t('booking.error_booking_fa
 confirmBtn.disabled = false;
 confirmBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ' + (window.t ? window.t('booking.confirm_reservation') : 'Confirm Reservation');
 showStatus('error', window.t ? window.t('booking.error_connection') : 'Connection error. Please try again or contact us at info@amanthosliving.com.');
-console.error('Booking error:', err);
+// error handled above
 });
 });
 }
@@ -580,7 +604,7 @@ gtmPush('payment_completed', { booking_id: bookingId });
 // else: error or already cancelled — leave UI as-is
 })
 .catch(function (err) {
-console.error('Cancel booking error:', err);
+// error handled silently
 });
 }
 function showPaymentStep(confirmationId, paymentLink, email, bookingData) {

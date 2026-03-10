@@ -28,6 +28,8 @@
     "booking_checkout_label": "Départ",
     "booking_adults_label": "Adultes",
     "booking_children_label": "Enfants",
+    "booking_select_location": "Où souhaitez-vous séjourner ?",
+    "booking_select_dates": "Dates rapides",
     "booking_search_btn": "Voir les prix",
     "booking_note": "Meilleur prix garanti · Aucun frais caché · Annulation gratuite ·",
     "booking_note_urgency": "Plus que quelques disponibilités cette semaine"
@@ -37,6 +39,8 @@
     "loading": "Recherche des meilleurs tarifs pour vous...",
     "no_offers": "Aucune disponibilité trouvée pour les dates sélectionnées. Veuillez essayer d'autres dates ou un autre emplacement.",
     "server_waking": "Notre serveur de réservation démarre (cela prend environ 30 secondes au premier chargement). Veuillez cliquer à nouveau sur « Voir les prix » dans un instant.",
+    "server_waking_auto": "Réveil du serveur de réservation... nouvelle tentative automatique.",
+    "retry_attempt": "Tentative {n} sur {max} — cela prend environ 30 secondes au premier chargement",
     "unable_to_check": "Impossible de vérifier la disponibilité pour le moment.",
     "try_again": "Réessayer",
     "night": "nuit",

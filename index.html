@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-5JL7R64S');</script>
-  <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Amanthos Living | Serviced Apartments in Switzerland</title>
@@ -40,20 +33,22 @@
   <link rel="icon" href="./images/logo.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
 
-  <!-- Preload hero image for LCP -->
-  <link rel="preload" href="./images/landing-hero.webp" as="image" type="image/webp">
-  <link rel="preload" href="./css/style.css" as="style">
+  <meta name="theme-color" content="#1A2B4A">
+
+  <!-- Preload hero image for LCP (removed CSS preload to avoid bandwidth contention) -->
+  <link rel="preload" as="image" type="image/webp" imagesrcset="./images/landing-hero-640w.webp 640w, ./images/landing-hero-960w.webp 960w, ./images/landing-hero-1280w.webp 1280w, ./images/landing-hero-1920w.webp 1920w, ./images/landing-hero.webp 2400w" imagesizes="100vw">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Async Google Fonts (non-render-blocking) -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+  <!-- Async Google Fonts (non-render-blocking) with font-display:optional for no layout shift -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=optional" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=optional" rel="stylesheet"></noscript>
 
   <!-- Critical CSS (above-the-fold) -->
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    :root{--color-bg:#FAF8F5;--color-bg-alt:#F3EDE7;--color-surface:#FFF;--color-primary:#1A2B4A;--color-secondary:#8B7355;--color-accent:#8B6914;--color-accent-hover:#745812;--color-text:#2D2D3A;--color-text-muted:#4A4A5A;--color-border:#E8E2DA;--color-success:#2D7A5F;--color-error:#9B2C2C;--font-heading:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--max-width:1200px;--radius:12px;--radius-sm:8px}
-    body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    :root{--color-bg:#FAF8F5;--color-bg-alt:#F3EDE7;--color-surface:#FFF;--color-primary:#1A2B4A;--color-secondary:#8B7355;--color-accent:#8B6914;--color-accent-hover:#745812;--color-text:#2D2D3A;--color-text-muted:#3A3A4A;--color-border:#E8E2DA;--color-success:#2D7A5F;--color-error:#9B2C2C;--font-heading:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--max-width:1200px;--radius:12px;--radius-sm:8px;--radius-lg:16px;--radius-full:9999px}
+    body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+    img{max-width:100%;height:auto;display:block}
     .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;transition:all .3s ease}
     .nav.scrolled{background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.06)}
     .nav-logo{font-family:var(--font-heading);font-size:1.4rem;color:#fff;text-decoration:none;font-weight:600;transition:color .3s}
@@ -66,21 +61,47 @@
     .hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
     .hamburger span{display:block;width:24px;height:2px;background:#fff;margin:5px 0;transition:all .3s}
     .nav.scrolled .hamburger span{background:var(--color-primary)}
-    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:6rem 1.5rem 8rem;overflow:hidden}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:6rem 1.5rem 4rem;overflow:hidden;z-index:0}
     .hero-bg{position:absolute;inset:0;z-index:-2}
+    .hero-bg picture{display:block;width:100%;height:100%}
     .hero-bg img{width:100%;height:100%;object-fit:cover}
     .hero::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom,rgba(26,43,74,.3),rgba(26,43,74,.55))}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .sr-only-focusable:focus{position:static;width:auto;height:auto;padding:.5rem 1rem;margin:0;overflow:visible;clip:auto;white-space:normal;background:var(--color-accent);color:#fff;z-index:1000;text-decoration:none;font-weight:600}
     .hero h1{font-family:var(--font-heading);font-size:clamp(2.2rem,5vw,4rem);color:#fff;font-weight:700;line-height:1.15;margin-bottom:.75rem;max-width:800px}
-    .hero-sub{font-size:clamp(1rem,2vw,1.3rem);color:rgba(255,255,255,.85);font-weight:300;margin-bottom:2rem;max-width:600px}
-    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);padding:.5rem 1.2rem;border-radius:30px;color:#fff;font-size:.8rem;font-weight:500;margin-bottom:2rem;border:1px solid rgba(255,255,255,.2)}
+    .hero-sub{font-size:clamp(1rem,2vw,1.3rem);color:rgba(255,255,255,.95);font-weight:400;margin-bottom:1.5rem;max-width:600px}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);padding:.5rem 1.2rem;border-radius:30px;color:#fff;font-size:.8rem;font-weight:500;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,.2)}
+    .hero-live-ticker{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.25);backdrop-filter:blur(8px);padding:.4rem 1rem;border-radius:var(--radius-full);color:rgba(255,255,255,.9);font-size:.75rem;font-weight:500;margin-bottom:1rem}
+    .ticker-dot{width:8px;height:8px;background:#4ADE80;border-radius:50%}
+    .hero-trust{display:flex;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap;justify-content:center}
+    .trust-item{display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.95);font-size:.78rem;font-weight:500}
+    .booking-bar{position:relative;width:100%;max-width:860px;z-index:10;margin-top:2rem;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-radius:var(--radius-lg);padding:1.25rem 1.75rem 1rem;box-shadow:0 12px 48px rgba(0,0,0,.15)}
+    .booking-location-pills{display:flex;gap:.5rem;justify-content:center;margin-bottom:.6rem;flex-wrap:wrap}
+    .booking-pill{background:transparent;border:1.5px solid var(--color-border);color:var(--color-text-muted);padding:.4rem 1.1rem;border-radius:9999px;font-family:var(--font-body);font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .booking-pill.active{background:var(--color-accent);border-color:var(--color-accent);color:#fff}
+    .booking-chips{display:flex;gap:.35rem;justify-content:center;margin-bottom:.6rem;flex-wrap:wrap}
+    .booking-chip{background:transparent;border:1px solid rgba(0,0,0,.08);color:var(--color-text-muted);padding:.25rem .8rem;border-radius:9999px;font-family:var(--font-body);font-size:.72rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .booking-bar-inner{background:var(--color-bg-alt);border-radius:9999px;padding:.4rem .4rem .4rem 1.1rem;display:flex;align-items:center}
+    .bb-section{display:flex;align-items:center;gap:.45rem;padding:.55rem .65rem;color:var(--color-text-muted);font-size:.82rem;font-weight:500;cursor:pointer;border-radius:9999px;border:none;background:none;font-family:var(--font-body);white-space:nowrap}
+    .bb-divider{width:1px;height:22px;background:var(--color-border);flex-shrink:0}
+    .bb-guest-counter{display:flex;align-items:center;gap:.15rem;margin-right:.35rem}
+    .bb-counter-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--color-border);background:none;color:var(--color-text-muted);font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);line-height:1}
+    .bb-counter-val{width:24px;text-align:center;color:var(--color-primary);font-size:.9rem;font-weight:600}
+    .booking-search-btn{flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--color-accent);color:#fff;border:none;padding:.7rem 1.8rem;border-radius:9999px;font-family:var(--font-body);font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.12em;text-transform:uppercase}
+    [data-animate]{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    [data-animate].animate-in{opacity:1;transform:translateY(0)}
     @media(max-width:768px){
-      .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,43,74,.97);flex-direction:column;justify-content:center;align-items:center;gap:2rem}
+      .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,43,74,.97);flex-direction:column;justify-content:center;align-items:center;gap:0;z-index:100;padding:2rem}
       .nav-links.open{display:flex}
-      .nav-links a{color:#fff;font-size:1.2rem}
-      .hamburger{display:block}
-      .hero{padding:5rem 1rem 6rem}
+      .nav-links a{color:#fff;font-size:1.1rem;display:block;padding:1rem 0}
+      .nav-links li{width:100%;text-align:center;border-bottom:1px solid rgba(255,255,255,.08)}
+      .hamburger{display:block;min-width:44px;min-height:44px}
+      .hero{min-height:100svh;padding:4rem 1.25rem 2rem}
+      .hero h1{font-size:clamp(1.8rem,7vw,2.6rem)}
+      .hero-sub{font-size:.95rem}
+      .booking-bar{max-width:none;padding:1rem .85rem .85rem;border-radius:var(--radius-sm)}
+      .bb-section svg{width:16px;height:16px}
+      .bb-guests-section span{display:none}
     }
   </style>
 
@@ -179,7 +200,7 @@
 <body>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JL7R64S"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager" aria-hidden="true"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
 
@@ -205,8 +226,8 @@
   <section class="hero" id="hero">
     <div class="hero-bg">
       <picture>
-        <source srcset="./images/landing-hero.webp" type="image/webp">
-        <img src="./images/landing-hero.jpg" alt="Premium serviced apartment bedroom with Swiss vineyard and mountain views" width="2400" height="1596" fetchpriority="high">
+        <source srcset="./images/landing-hero-640w.webp 640w, ./images/landing-hero-960w.webp 960w, ./images/landing-hero-1280w.webp 1280w, ./images/landing-hero-1920w.webp 1920w, ./images/landing-hero.webp 2400w" sizes="100vw" type="image/webp">
+        <img src="./images/landing-hero.jpg" alt="Premium serviced apartment bedroom with Swiss vineyard and mountain views" width="2400" height="1596" fetchpriority="high" decoding="async">
       </picture>
     </div>
     <!-- Social Proof Live Ticker -->
@@ -216,7 +237,7 @@
     </div>
 
     <div class="hero-badge">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       <span data-i18n="hero.badge">4.3 Stars &middot; 1,220+ Happy Guests &middot; Swiss Quality</span>
     </div>
     <h1 data-i18n="hero.heading">You're Paying Double for Half the Space.</h1>
@@ -225,64 +246,87 @@
     <!-- Trust Logos Row -->
     <div class="hero-trust">
       <span class="trust-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <span data-i18n="hero.trust_secure">Secure Booking</span>
       </span>
       <span class="trust-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         <span data-i18n="hero.trust_cancellation">Free Cancellation</span>
       </span>
       <span class="trust-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span data-i18n="hero.trust_instant">Instant Confirmation</span>
       </span>
     </div>
 
     <!-- Booking Bar -->
     <div class="booking-bar" id="bookingBar">
+      <!-- Location pills -->
+      <div class="booking-location-pills">
+        <button class="booking-pill" data-location="GBAL" data-i18n="hero.booking_location_zurich">Zurich Airport</button>
+        <button class="booking-pill" data-location="GNBE" data-i18n="hero.booking_location_solothurn">Solothurn</button>
+        <button class="booking-pill" data-location="NYAL" data-i18n="hero.booking_location_nyon">Nyon</button>
+      </div>
+
+      <!-- Quick date chips -->
+      <div class="booking-chips">
+        <button class="booking-chip" data-quick="tonight" data-i18n="hero.chip_tonight">Tonight</button>
+        <button class="booking-chip" data-quick="this-weekend" data-i18n="hero.chip_this_weekend">This Weekend</button>
+        <button class="booking-chip" data-quick="next-weekend" data-i18n="hero.chip_next_weekend">Next Weekend</button>
+        <button class="booking-chip" data-quick="1-week" data-i18n="hero.chip_1_week">1 Week</button>
+      </div>
+
+      <!-- Calendar overlay -->
+      <div class="booking-calendar-overlay" id="calendarOverlay" style="display:none">
+        <div class="booking-calendar">
+          <div class="cal-header">
+            <button class="cal-nav" id="calPrev" aria-label="Previous month"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <span class="cal-month-year" id="calMonthYear"></span>
+            <button class="cal-nav" id="calNext" aria-label="Next month"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+          <div class="cal-weekdays">
+            <span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span><span>SU</span>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-hint" id="calHint"></div>
+        </div>
+      </div>
+
+      <!-- Bottom dark bar -->
       <div class="booking-bar-inner">
-        <div class="booking-field">
-          <label for="bb-location" data-i18n="hero.booking_location_label">Location</label>
-          <select id="bb-location" aria-label="Select location">
-            <option value="" data-i18n="hero.booking_location_placeholder">Select Location</option>
-            <option value="GBAL" data-i18n="hero.booking_location_zurich">Zurich Airport</option>
-            <option value="GNBE" data-i18n="hero.booking_location_solothurn">Solothurn / Grenchen</option>
-            <option value="NYAL" data-i18n="hero.booking_location_nyon">Nyon / Duillier</option>
-          </select>
+        <button class="bb-section bb-dates" id="datePickerTrigger" type="button">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span id="dateDisplay" data-i18n="hero.booking_set_dates">Set travel dates</span>
+        </button>
+        <div class="bb-divider"></div>
+        <div class="bb-section bb-guests-section">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          <span data-i18n="hero.booking_guests_label">Guests</span>
         </div>
-        <div class="booking-field">
-          <label for="bb-checkin" data-i18n="hero.booking_checkin_label">Check-in</label>
-          <input type="date" id="bb-checkin" aria-label="Check-in date">
-        </div>
-        <div class="booking-field">
-          <label for="bb-checkout" data-i18n="hero.booking_checkout_label">Check-out</label>
-          <input type="date" id="bb-checkout" aria-label="Check-out date">
-        </div>
-        <div class="booking-field booking-field-narrow">
-          <label for="bb-guests" data-i18n="hero.booking_adults_label">Adults</label>
-          <select id="bb-guests" aria-label="Number of adults">
-            <option value="1" data-i18n="common.adult_1">1 Adult</option>
-            <option value="2" selected data-i18n="common.adult_2">2 Adults</option>
-            <option value="3" data-i18n="common.adult_3">3 Adults</option>
-            <option value="4" data-i18n="common.adult_4">4 Adults</option>
-          </select>
-        </div>
-        <div class="booking-field booking-field-narrow">
-          <label for="bb-children" data-i18n="hero.booking_children_label">Children</label>
-          <select id="bb-children" aria-label="Number of children">
-            <option value="0" selected data-i18n="common.children_0">0</option>
-            <option value="1" data-i18n="common.children_1">1 Child</option>
-            <option value="2" data-i18n="common.children_2">2 Children</option>
-            <option value="3" data-i18n="common.children_3">3 Children</option>
-            <option value="4" data-i18n="common.children_4">4 Children</option>
-          </select>
+        <div class="bb-guest-counter">
+          <button class="bb-counter-btn" id="guestMinus" type="button" aria-label="Decrease guests">&minus;</button>
+          <span class="bb-counter-val" id="guestCount">2</span>
+          <button class="bb-counter-btn" id="guestPlus" type="button" aria-label="Increase guests">+</button>
         </div>
         <button class="booking-search-btn" id="bookingSearchBtn" aria-label="Search availability">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span data-i18n="hero.booking_search_btn">Check Prices</span>
+          <span data-i18n="hero.booking_search_btn">SEARCH</span>
         </button>
       </div>
-      <p class="booking-bar-note"><span data-i18n="hero.booking_note">Best price guaranteed &middot; No hidden fees &middot; Free cancellation &middot;</span> <strong style="color:var(--color-accent)" data-i18n="hero.booking_note_urgency">Only a few left for this week</strong></p>
+      <div class="bb-validation" id="bbValidation" style="display:none" role="alert"></div>
+
+      <!-- Hidden fields for booking.js compatibility -->
+      <div style="position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none">
+        <label for="bb-location" class="sr-only">Location</label>
+        <select id="bb-location" aria-label="Location"><option value="">Select</option><option value="GBAL">Zurich Airport</option><option value="GNBE">Solothurn / Grenchen</option><option value="NYAL">Nyon / Duillier</option></select>
+        <label for="bb-checkin" class="sr-only">Check-in date</label>
+        <input type="date" id="bb-checkin" aria-label="Check-in date">
+        <label for="bb-checkout" class="sr-only">Check-out date</label>
+        <input type="date" id="bb-checkout" aria-label="Check-out date">
+        <label for="bb-guests" class="sr-only">Number of guests</label>
+        <select id="bb-guests" aria-label="Number of guests"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>
+        <label for="bb-children" class="sr-only">Number of children</label>
+        <select id="bb-children" aria-label="Number of children"><option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+      </div>
     </div>
   </section>
 
@@ -300,7 +344,7 @@
       <div id="guestForm" class="guest-form" style="display:none">
         <h3 data-i18n="booking.complete_reservation">Complete Your Reservation</h3>
         <p class="guest-form-reassurance">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span data-i18n="booking.data_secure">Your data is encrypted and secure. We never share your information.</span>
         </p>
         <div class="form-grid">
@@ -333,7 +377,7 @@
         </div>
         <div class="form-actions">
           <button class="btn btn-accent btn-lg" id="confirmBookingBtn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span data-i18n="booking.confirm_reservation">Confirm Reservation</span>
           </button>
           <button class="btn btn-outline" id="cancelBookingBtn" data-i18n="booking.back">Back</button>
@@ -454,7 +498,7 @@
         <!-- Zurich -->
         <article class="location-card" data-animate>
           <div class="location-img">
-<picture><source srcset="./images/zurich/hero.webp" type="image/webp"><img src="./images/zurich/hero.jpg" alt="Amanthos Living Zurich Airport - Modern serviced apartment with fully equipped kitchen" width="600" height="400" loading="lazy"></picture>
+<picture><source srcset="./images/zurich/hero.webp" type="image/webp"><img src="./images/zurich/hero.jpg" alt="Amanthos Living Zurich Airport - Modern serviced apartment with fully equipped kitchen" width="600" height="400" loading="lazy" decoding="async"></picture>
             <span class="location-badge" data-i18n="locations.zurich_name">Zurich Airport</span>
             <span class="location-price-tag" data-i18n="locations.zurich_price">from CHF 109/night</span>
           </div>
@@ -463,7 +507,7 @@
               <h3 data-i18n="locations.zurich_name">Zurich Airport</h3>
               <div class="location-rating">
                 <div class="stars" aria-label="Rating 4.4 out of 5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   <span>4.4</span>
                 </div>
                 <span class="review-count">(99+)</span>
@@ -484,7 +528,7 @@
         <!-- Solothurn -->
         <article class="location-card" data-animate>
           <div class="location-img">
-            <picture><source srcset="./images/solothurn/kitchen.webp" type="image/webp"><img src="./images/solothurn/kitchen.jpg" alt="Amanthos Living Solothurn - Modern equipped kitchen in Grenchen apartment" width="600" height="400" loading="lazy"></picture>
+            <picture><source srcset="./images/solothurn/kitchen.webp" type="image/webp"><img src="./images/solothurn/kitchen.jpg" alt="Amanthos Living Solothurn - Modern equipped kitchen in Grenchen apartment" width="600" height="400" loading="lazy" decoding="async"></picture>
             <span class="location-badge" data-i18n="locations.solothurn_name">Solothurn</span>
             <span class="location-price-tag" data-i18n="locations.solothurn_price">from CHF 49/night</span>
           </div>
@@ -493,7 +537,7 @@
               <h3 data-i18n="locations.solothurn_name">Solothurn / Grenchen</h3>
               <div class="location-rating">
                 <div class="stars" aria-label="Rating 4.0 out of 5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   <span>4.0</span>
                 </div>
                 <span class="review-count">(9+)</span>
@@ -514,7 +558,7 @@
         <!-- Nyon -->
         <article class="location-card" data-animate>
           <div class="location-img">
-            <picture><source srcset="./images/nyon/hero.webp" type="image/webp"><img src="./images/nyon/hero.jpg" alt="Amanthos Living Nyon - Apartment with Lake Geneva views in Duillier" width="600" height="400" loading="lazy"></picture>
+            <picture><source srcset="./images/nyon/hero.webp" type="image/webp"><img src="./images/nyon/hero.jpg" alt="Amanthos Living Nyon - Apartment with Lake Geneva views in Duillier" width="600" height="400" loading="lazy" decoding="async"></picture>
             <span class="location-badge" data-i18n="locations.nyon_name">Nyon</span>
             <span class="location-price-tag" data-i18n="locations.nyon_price">from CHF 99/night</span>
           </div>
@@ -523,7 +567,7 @@
               <h3 data-i18n="locations.nyon_name">Nyon / Duillier</h3>
               <div class="location-rating">
                 <div class="stars" aria-label="Rating 4.3 out of 5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   <span>4.3</span>
                 </div>
                 <span class="review-count">(50+)</span>
@@ -554,7 +598,7 @@
         <!-- Feature 1 -->
         <div class="feature-visual-card" data-animate>
           <div class="feature-visual-img">
-            <picture><source srcset="./images/zurich/kitchen.webp" type="image/webp"><img src="./images/zurich/kitchen.jpg" alt="Fully equipped kitchen in Amanthos Living apartment" loading="lazy" width="600" height="400"></picture>
+            <picture><source srcset="./images/zurich/kitchen.webp" type="image/webp"><img src="./images/zurich/kitchen.jpg" alt="Fully equipped kitchen in Amanthos Living apartment" loading="lazy" decoding="async" width="600" height="400"></picture>
           </div>
           <div class="feature-visual-content">
             <h3 data-i18n="why_us.kitchen_title">Fully Equipped Kitchen</h3>
@@ -565,7 +609,7 @@
         <!-- Feature 2 -->
         <div class="feature-visual-card" data-animate>
           <div class="feature-visual-img">
-            <picture><source srcset="./images/zurich/living-room.webp" type="image/webp"><img src="./images/zurich/living-room.jpg" alt="Spacious modern living room in Amanthos Living serviced apartment" loading="lazy" width="600" height="400"></picture>
+            <picture><source srcset="./images/zurich/living-room.webp" type="image/webp"><img src="./images/zurich/living-room.jpg" alt="Spacious modern living room in Amanthos Living serviced apartment" loading="lazy" decoding="async" width="600" height="400"></picture>
           </div>
           <div class="feature-visual-content">
             <h3 data-i18n="why_us.space_title">2-3x More Space</h3>
@@ -576,7 +620,7 @@
         <!-- Feature 3 -->
         <div class="feature-visual-card" data-animate>
           <div class="feature-visual-img">
-            <picture><source srcset="./images/nyon/bathroom.webp" type="image/webp"><img src="./images/nyon/bathroom.jpg" alt="Designer bathroom with vessel sink at Amanthos Living" loading="lazy" width="600" height="400"></picture>
+            <picture><source srcset="./images/nyon/bathroom.webp" type="image/webp"><img src="./images/nyon/bathroom.jpg" alt="Designer bathroom with vessel sink at Amanthos Living" loading="lazy" decoding="async" width="600" height="400"></picture>
           </div>
           <div class="feature-visual-content">
             <h3 data-i18n="why_us.cleaning_title">Hotel-Grade Cleaning</h3>
@@ -587,12 +631,101 @@
         <!-- Feature 4 -->
         <div class="feature-visual-card" data-animate>
           <div class="feature-visual-img">
-            <picture><source srcset="./images/zurich/bedroom.webp" type="image/webp"><img src="./images/zurich/bedroom.jpg" alt="Modern bedroom with sheer curtains at Amanthos Living" loading="lazy" width="600" height="400"></picture>
+            <picture><source srcset="./images/zurich/bedroom.webp" type="image/webp"><img src="./images/zurich/bedroom.jpg" alt="Modern bedroom with sheer curtains at Amanthos Living" loading="lazy" decoding="async" width="600" height="400"></picture>
           </div>
           <div class="feature-visual-content">
             <h3 data-i18n="why_us.checkin_title">Digital Check-in</h3>
             <p data-i18n="why_us.checkin_desc">Skip the front desk. Get your digital key before arrival. Check in anytime, 24/7, at your own pace.</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ROOMS (Tab-based) ========== -->
+  <section class="section section-alt" id="rooms">
+    <div class="container">
+      <p class="section-label" data-animate data-i18n="rooms.section_label">Our Rooms</p>
+      <h2 class="section-title" data-animate data-i18n="rooms.title">Choose Your Perfect Room</h2>
+
+      <div class="rooms-tabs-wrap" data-animate>
+        <div class="rooms-tabs" role="tablist">
+          <button class="rooms-tab active" data-room="0" role="tab" aria-selected="true" data-i18n="rooms.tab_single">Einzelzimmer</button>
+          <button class="rooms-tab" data-room="1" role="tab" aria-selected="false" data-i18n="rooms.tab_standard_double">Standard Doppel</button>
+          <button class="rooms-tab" data-room="2" role="tab" aria-selected="false" data-i18n="rooms.tab_superior_double">Superior Doppel</button>
+          <button class="rooms-tab" data-room="3" role="tab" aria-selected="false" data-i18n="rooms.tab_superior_twin">Superior Twin Balkon</button>
+          <button class="rooms-tab" data-room="4" role="tab" aria-selected="false" data-i18n="rooms.tab_family_3">Familienzimmer 3</button>
+          <button class="rooms-tab" data-room="5" role="tab" aria-selected="false" data-i18n="rooms.tab_family_4">Familienzimmer 4</button>
+        </div>
+      </div>
+
+      <div class="room-display" id="roomDisplay" role="tabpanel" data-animate></div>
+    </div>
+  </section>
+
+  <!-- ========== PRICING & CONDITIONS ========== -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <p class="section-label" data-animate data-i18n="pricing.section_label">Prices & Reservation</p>
+      <h2 class="section-title" data-animate data-i18n="pricing.title">Preise und Reservation</h2>
+      <p class="section-subtitle" data-animate data-i18n="pricing.subtitle">All room prices include breakfast buffet, service charges, taxes, and VAT.</p>
+
+      <div class="pricing-info" data-animate>
+        <div class="pricing-note">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span data-i18n="pricing.includes">Breakfast buffet, service charges, taxes & VAT included</span>
+        </div>
+        <div class="pricing-note">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+          <span data-i18n="pricing.dogs">Dogs stay free — please note they are not allowed in the breakfast room</span>
+        </div>
+        <div class="pricing-note">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span data-i18n="pricing.loyalty">Loyalty discount: 10% off from your 3rd stay (min. 3 nights)</span>
+        </div>
+      </div>
+
+      <div class="pricing-cards" data-animate>
+        <div class="pricing-card">
+          <div class="pricing-card-price">CHF 99<small data-i18n="pricing.per_night">/night</small></div>
+          <h3 data-i18n="rooms.tab_single">Einzelzimmer</h3>
+          <ul class="pricing-checklist">
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_single_bed">Single Bed</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_tv">TV</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_breakfast">Breakfast</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_bath">Bath/Shower</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_wifi">Wi-Fi</span></li>
+          </ul>
+          <a href="#booking" class="btn btn-accent pricing-card-btn" data-scroll-to="bookingBar" data-i18n="rooms.book_now">JETZT BUCHEN</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-card-badge" data-i18n="pricing.popular">Most Popular</div>
+          <div class="pricing-card-price">CHF 169<small data-i18n="pricing.per_night">/night</small></div>
+          <h3 data-i18n="rooms.tab_superior_double">Superior Doppelzimmer</h3>
+          <ul class="pricing-checklist">
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_double_bed">Double Bed</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_tv">TV</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_breakfast">Breakfast</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_safe">Safe</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_minibar">Minibar</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_wifi">Wi-Fi</span></li>
+          </ul>
+          <a href="#booking" class="btn btn-accent pricing-card-btn" data-scroll-to="bookingBar" data-i18n="rooms.book_now">JETZT BUCHEN</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-card-price">CHF 259<small data-i18n="pricing.per_night">/night</small></div>
+          <h3 data-i18n="rooms.tab_family_4">Familienzimmer</h3>
+          <ul class="pricing-checklist">
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_3_4_beds">3-4 Beds</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_balcony">Balcony</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_tv">TV</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_breakfast">Breakfast</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_crib">Crib available*</span></li>
+            <li><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-i18n="rooms.amenity_wifi">Wi-Fi</span></li>
+          </ul>
+          <a href="#booking" class="btn btn-accent pricing-card-btn" data-scroll-to="bookingBar" data-i18n="rooms.book_now">JETZT BUCHEN</a>
         </div>
       </div>
     </div>
@@ -607,12 +740,12 @@
 
       <div class="reviews-grid">
         <div class="review-card" data-animate>
-          <div class="review-stars">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div class="review-stars" role="img" aria-label="5 out of 5 stars">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
           <p class="review-text" data-i18n="reviews.review1_text">The apartment was spotless and well-equipped. Having a full kitchen saved us a fortune. Much better value than any Zurich hotel.</p>
           <div class="review-author">
@@ -625,12 +758,12 @@
         </div>
 
         <div class="review-card" data-animate>
-          <div class="review-stars">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div class="review-stars" role="img" aria-label="5 out of 5 stars">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
           <p class="review-text" data-i18n="reviews.review2_text">The views of Lake Geneva from our apartment in Nyon were absolutely breathtaking. Digital check-in was seamless. We will definitely return.</p>
           <div class="review-author">
@@ -643,12 +776,12 @@
         </div>
 
         <div class="review-card" data-animate>
-          <div class="review-stars">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#E8E2DA" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div class="review-stars" role="img" aria-label="4 out of 5 stars">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#C4956A" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="#E8E2DA" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
           <p class="review-text" data-i18n="reviews.review3_text">Perfect for my 3-month project in Grenchen. So much cheaper than a hotel, and having a real kitchen and workspace made all the difference. Felt like home from day one.</p>
           <div class="review-author">
@@ -697,9 +830,9 @@
           <div style="text-align:center;font-weight:700;border-top:2px solid var(--color-primary);padding-top:.75rem;font-size:1rem;color:var(--color-success);">CHF 343</div>
         </div>
         <div style="text-align:center;margin-top:1.5rem;padding:1rem;background:linear-gradient(135deg,var(--color-primary),#2a3d5e);border-radius:var(--radius-sm);color:#fff;">
-          <div style="font-size:.8rem;opacity:.8;text-transform:uppercase;letter-spacing:.05em;">You Save</div>
+          <div style="font-size:.8rem;color:rgba(255,255,255,0.95);text-transform:uppercase;letter-spacing:.05em;">You Save</div>
           <div style="font-size:2rem;font-weight:700;font-family:var(--font-heading);">CHF 1,387+ per Week</div>
-          <div style="font-size:.85rem;opacity:.85;">That's over CHF 5,500 saved per month</div>
+          <div style="font-size:.85rem;color:rgba(255,255,255,0.95);">That's over CHF 5,500 saved per month</div>
         </div>
       </div>
 
@@ -723,7 +856,7 @@
           <p data-i18n="how_it_works.step1_desc">Pick your location, dates and apartment. Pay securely online. Done in under a minute.</p>
         </div>
         <div class="step-arrow" data-animate>
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
         <div class="step-card" data-animate>
           <div class="step-number">2</div>
@@ -731,7 +864,7 @@
           <p data-i18n="how_it_works.step2_desc">Receive your digital access code via email. No physical key, no reception, no waiting.</p>
         </div>
         <div class="step-arrow" data-animate>
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
         <div class="step-card" data-animate>
           <div class="step-number">3</div>
@@ -835,22 +968,22 @@
       <p class="cta-final-sub" data-animate data-i18n="cta.subtitle">1,220+ guests stopped overpaying. The question isn't if you should switch &mdash; it's why haven't you yet?</p>
       <div class="cta-final-actions" data-animate>
         <a href="#booking" class="btn btn-accent btn-xl pulse-animation" data-scroll-to="bookingBar" style="font-size:1.1rem;padding:1.1rem 2.5rem;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <span data-i18n="cta.button">See How Much You'll Save</span> &rarr;
         </a>
         <p class="cta-reassurance" data-i18n="cta.reassurance">No credit card required &middot; Results in 3 seconds &middot; Free cancellation</p>
       </div>
       <div class="cta-stats-row" style="margin-top:2rem;display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;" data-animate>
         <div style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.8);font-size:.85rem;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           1,220+ guests served
         </div>
         <div style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.8);font-size:.85rem;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           57 apartments across 3 locations
         </div>
         <div style="display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.8);font-size:.85rem;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           4.3 average rating
         </div>
       </div>
@@ -868,13 +1001,13 @@
           <p data-i18n="footer.brand_desc">Premium serviced apartments in Switzerland. Hotel comfort meets home peace.</p>
           <div class="footer-social">
             <a href="https://www.linkedin.com/company/amanthos-living" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
             <a href="https://www.instagram.com/amanthosliving" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
             <a href="https://www.youtube.com/@amanthosliving" target="_blank" rel="noopener" aria-label="YouTube">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
           </div>
         </div>
@@ -928,7 +1061,7 @@
 
   <!-- Chat Widget Toggle -->
   <button class="chat-toggle" id="chatToggle" aria-label="Open chat assistant" title="Chat with us">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
   </button>
 
   <!-- Chat Panel -->
@@ -951,7 +1084,7 @@
     <div class="chat-input-area">
       <input type="text" id="chatInput" placeholder="Ask about prices, availability..." aria-label="Type your message" data-i18n-placeholder="chat.input_placeholder">
       <button id="chatSendBtn" aria-label="Send message">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
   </div>
@@ -959,7 +1092,7 @@
   <!-- Recent Booking Popup (toast) -->
   <div class="booking-toast" id="bookingToast" style="display:none" role="alert">
     <div class="toast-icon">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
     <div class="toast-content">
       <strong id="toastName">Someone</strong> <span data-i18n="toast.just_booked">just booked</span>
@@ -1002,7 +1135,7 @@
     <div class="container">
       <div class="urgency-inner">
         <span class="urgency-icon urgency-pulse" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
         </span>
         <span class="urgency-text"><strong id="urgencyCount">11</strong> apartments booked in the last 24h &mdash; <strong>only <span id="urgencyLeft">6</span> left this week</strong></span>
         <a href="#booking" class="urgency-cta" data-scroll-to="bookingBar" data-i18n="urgency_banner.secure_yours">Secure Yours Now</a>
@@ -1021,9 +1154,13 @@
     </div>
   </div>
 
+  <!-- Google Tag Manager (deferred until after load for performance) -->
+  <script>window.addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5JL7R64S');},1500);});</script>
+
   <!-- Scripts (deferred) -->
   <script src="./js/i18n.js" defer></script>
   <script src="./js/app.js" defer></script>
+  <script src="./js/calendar.js" defer></script>
   <script src="./js/booking.js" defer></script>
   <script src="./js/chat.js" defer></script>
 </body>

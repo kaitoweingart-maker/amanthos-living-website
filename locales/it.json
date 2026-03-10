@@ -28,6 +28,8 @@
     "booking_checkout_label": "Check-out",
     "booking_adults_label": "Adulti",
     "booking_children_label": "Bambini",
+    "booking_select_location": "Dove vorresti soggiornare?",
+    "booking_select_dates": "Date rapide",
     "booking_search_btn": "Verifichi i prezzi",
     "booking_note": "Miglior prezzo garantito \u00b7 Nessun costo nascosto \u00b7 Cancellazione gratuita \u00b7",
     "booking_note_urgency": "Solo pochi disponibili per questa settimana"
@@ -37,6 +39,8 @@
     "loading": "Stiamo cercando le migliori tariffe per Lei...",
     "no_offers": "Nessuna disponibilit\u00e0 trovata per le date selezionate. La preghiamo di provare date diverse o un'altra sede.",
     "server_waking": "Il nostro server di prenotazione si sta avviando (circa 30 secondi al primo caricamento). La preghiamo di cliccare nuovamente su \u00abVerifichi i prezzi\u00bb tra un momento.",
+    "server_waking_auto": "Il server di prenotazione si sta avviando... nuovo tentativo automatico.",
+    "retry_attempt": "Tentativo {n} di {max} — al primo caricamento impiega circa 30 secondi",
     "unable_to_check": "Impossibile verificare la disponibilit\u00e0 al momento.",
     "try_again": "Riprovi",
     "night": "notte",

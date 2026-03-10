@@ -37,6 +37,8 @@
 
   <!-- Preload hero image for LCP (removed CSS preload to avoid bandwidth contention) -->
   <link rel="preload" as="image" type="image/webp" imagesrcset="./images/landing-hero-640w.webp 640w, ./images/landing-hero-960w.webp 960w, ./images/landing-hero-1280w.webp 1280w, ./images/landing-hero-1920w.webp 1920w, ./images/landing-hero.webp 2400w" imagesizes="100vw">
+  <link rel="dns-prefetch" href="https://amanthos-website-api.onrender.com">
+  <link rel="preconnect" href="https://amanthos-website-api.onrender.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Async Google Fonts (non-render-blocking) with font-display:optional for no layout shift -->
@@ -243,21 +245,6 @@
     <h1 data-i18n="hero.heading">You're Paying Double for Half the Space.</h1>
     <p class="hero-sub" data-i18n="hero.subheading">1,220+ guests already made the switch. Premium serviced apartments from CHF 49/night &mdash; fully equipped, professionally cleaned, and yours tonight.</p>
 
-    <!-- Trust Logos Row -->
-    <div class="hero-trust">
-      <span class="trust-item">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span data-i18n="hero.trust_secure">Secure Booking</span>
-      </span>
-      <span class="trust-item">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <span data-i18n="hero.trust_cancellation">Free Cancellation</span>
-      </span>
-      <span class="trust-item">
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span data-i18n="hero.trust_instant">Instant Confirmation</span>
-      </span>
-    </div>
 
     <!-- Booking Bar -->
     <div class="booking-bar" id="bookingBar">

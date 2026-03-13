@@ -1473,7 +1473,11 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
       var pollTimer = setInterval(function () {
         if (popup.closed) {
           clearInterval(pollTimer);
-          cancelUnpaidBooking(reservationId, confirmationId, paymentSection);
+          // Grace period: wait 10 seconds for Adyen webhook to reach Apaleo before checking
+          payBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .7s linear infinite"><circle cx="12" cy="12" r="10"/></svg> ' + (window.t ? window.t('booking.checking_payment') : 'Checking payment status...');
+          setTimeout(function () {
+            cancelUnpaidBooking(reservationId, confirmationId, paymentSection);
+          }, 10000);
         }
       }, 2000);
     });

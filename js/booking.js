@@ -1113,7 +1113,7 @@ function applyPromoCode() {
   var code = input.value.trim().toUpperCase();
   if (!code) { msg.textContent = window.t ? window.t('booking.promo_enter') : 'Please enter a promo code.'; msg.style.color = 'var(--color-error)'; return; }
   if (PROMO_CODES[code]) {
-    appliedPromo = { code: code, discount: PROMO_CODES[code].discount, label: PROMO_CODES[code].label };
+    appliedPromo = { code: code, discount: PROMO_CODES[code].discount, label: PROMO_CODES[code].label, fixedPrice: PROMO_CODES[code].fixedPrice != null ? PROMO_CODES[code].fixedPrice : null };
     msg.textContent = (window.t ? window.t('booking.promo_applied') : 'Promo code applied!') + ' -' + PROMO_CODES[code].label;
     msg.style.color = '#059669';
     gtmPush('promo_code_applied', { promo_code: code, discount: PROMO_CODES[code].label });

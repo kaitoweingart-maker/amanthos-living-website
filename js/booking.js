@@ -24,6 +24,7 @@ function gtmPush(event, data) {
 // Promo code configuration
 var PROMO_CODES = {
   'DM23102901TEST100BBPR': { discount: 1.0, label: '100%' },
+  'EMAILTEST050': { discount: 0, label: 'Test (CHF 0.50)', fixedPrice: 0.50 },
 };
 var appliedPromo = null;
 
@@ -1128,7 +1129,13 @@ function applyPromoCode() {
 function getDiscountedTotal() {
   if (!selectedOffer || !selectedOffer.totalGrossAmount) return null;
   var total = selectedOffer.totalGrossAmount.amount + getExtrasTotal();
-  if (appliedPromo) { total = total * (1 - appliedPromo.discount); }
+  if (appliedPromo) {
+    if (appliedPromo.fixedPrice != null) {
+      total = appliedPromo.fixedPrice;
+    } else {
+      total = total * (1 - appliedPromo.discount);
+    }
+  }
   return { amount: Math.round(total * 100) / 100, currency: selectedOffer.totalGrossAmount.currency };
 }
 
@@ -1414,10 +1421,10 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
   if (bookingStatus) bookingStatus.style.display = 'none';
   var paymentSection = getOrCreatePaymentSection();
   var confirmMsg = window.t ? window.t('booking.payment_confirmed_id', { id: confirmationId }) : 'Reservation created — Reference: ' + confirmationId;
-  var paymentMsg = window.t ? window.t('booking.payment_instruction') : 'Payment is required to confirm your reservation. Without payment, your booking will be automatically cancelled.';
-  var payBtnText = window.t ? window.t('booking.pay_now') : 'Pay Now — Secure Payment';
-  var emailNote = window.t ? window.t('booking.payment_email_note', { email: email }) : 'A confirmation email will be sent to ' + email + ' after payment.';
-  var secureNote = window.t ? window.t('booking.payment_secure_note') : 'You will be redirected to a secure payment page powered by Adyen.';
+  var paymentMsg = window.t ? window.t('booking.payment_instruction') : 'Please complete your payment now to confirm your reservation. Click the button below to pay securely.';
+  var payBtnText = window.t ? window.t('booking.pay_now') : 'Complete Payment Now';
+  var emailNote = window.t ? window.t('booking.payment_email_note', { email: email }) : 'After successful payment, you will receive a booking confirmation at ' + email + '.';
+  var secureNote = window.t ? window.t('booking.payment_secure_note') : 'A secure payment window will open. Please complete the payment there.';
   var reservationId = bookingData.reservationId || '';
 
   var totalText = '';
@@ -1430,6 +1437,15 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
   }
 
   var html = '';
+  // Warning banner: booking NOT confirmed
+  html += '<div style="background:#FEE2E2;border:2px solid #DC2626;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center;">';
+  html += '<p style="color:#DC2626;font-weight:800;font-size:1.05rem;margin:0;">';
+  html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" style="vertical-align:middle;margin-right:.4rem;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  html += (window.t ? window.t('booking.not_confirmed_yet') : 'Your booking is NOT yet confirmed!');
+  html += '</p>';
+  html += '<p style="color:#991B1B;font-size:.85rem;margin:.4rem 0 0;">' + (window.t ? window.t('booking.will_be_cancelled') : 'Without payment, your reservation will be automatically cancelled.') + '</p>';
+  html += '</div>';
+  // Reservation reference
   html += '<div class="payment-step-success" style="border-left:4px solid #F59E0B;background:#FFFBEB;">';
   html += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
   html += '<div>';
@@ -1437,16 +1453,15 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
   html += '<p style="font-size:.82rem;color:#B45309;margin-top:.25rem;">' + escapeHtml(email) + '</p>';
   html += '</div>';
   html += '</div>';
+  // Payment action area
   html += '<div class="payment-step-action">';
-  html += '<div style="display:inline-flex;align-items:center;gap:.5rem;background:#FEE2E2;color:#DC2626;padding:.5rem 1rem;border-radius:2rem;font-size:.85rem;font-weight:700;margin-bottom:1rem;letter-spacing:.3px;">';
-  html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
-  html += ' ' + (window.t ? window.t('booking.payment_pending') : 'PAYMENT REQUIRED');
-  html += '</div>';
-  html += '<p class="payment-instruction" style="font-weight:500;color:var(--color-text);margin-bottom:.75rem;">' + escapeHtml(paymentMsg) + '</p>';
+  html += '<p style="font-size:.8rem;color:var(--color-text-muted);margin-bottom:.5rem;font-weight:600;letter-spacing:.5px;">' + (window.t ? window.t('booking.payment_step_indicator') : 'Step 2 of 2 — Payment') + '</p>';
+  html += '<p class="payment-instruction" style="font-weight:600;color:var(--color-text);margin-bottom:.75rem;font-size:1.05rem;">' + escapeHtml(paymentMsg) + '</p>';
   if (totalText) {
     html += '<p style="font-size:1.8rem;font-weight:800;color:var(--color-primary);font-family:var(--font-heading);margin:.75rem 0;letter-spacing:-.5px;">' + escapeHtml(totalText) + '</p>';
   }
-  html += '<button id="payNowBtn" class="btn btn-accent btn-lg payment-btn" style="font-size:1.1rem;padding:1rem 2.5rem;font-weight:700;cursor:pointer;border:none;">';
+  html += '<style>@keyframes pulse-pay{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}</style>';
+  html += '<button id="payNowBtn" class="btn btn-accent btn-lg payment-btn" style="font-size:1.15rem;padding:1.1rem 2.5rem;font-weight:700;cursor:pointer;border:none;animation:pulse-pay 2s ease-in-out infinite;box-shadow:0 4px 14px rgba(0,0,0,.15);">';
   html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>';
   html += ' ' + escapeHtml(payBtnText);
   html += '</button>';
@@ -1463,9 +1478,29 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
   var payBtn = document.getElementById('payNowBtn');
   if (payBtn) {
     payBtn.addEventListener('click', function () {
+      // Validate payment link is from trusted domain
+      var ALLOWED_PAYMENT_HOSTS = ['eu.adyen.link', 'checkout.adyen.com', 'checkoutshopper-live.adyen.com'];
+      try {
+        var linkUrl = new URL(paymentLink);
+        if (linkUrl.protocol !== 'https:') {
+          console.error('Payment URL must be HTTPS'); return;
+        }
+        if (ALLOWED_PAYMENT_HOSTS.indexOf(linkUrl.hostname) === -1) {
+          console.error('Untrusted payment domain: ' + linkUrl.hostname); return;
+        }
+      } catch (e) { console.error('Invalid payment URL'); return; }
+
+      // Mobile: redirect directly (popups are blocked on most mobile browsers)
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+      if (isMobile) {
+        window.location.href = paymentLink;
+        return;
+      }
+
+      // Desktop: open popup
       var popup = window.open(paymentLink, 'amanthos_payment', 'width=900,height=700,scrollbars=yes,resizable=yes');
       if (!popup || popup.closed) {
-        window.open(paymentLink, '_blank');
+        window.location.href = paymentLink;
         return;
       }
       payBtn.disabled = true;

@@ -1335,6 +1335,98 @@ function showFreeBookingConfirmation(confirmationId, email) {
   paymentSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+function pollPaymentStatus(reservationId, bookingId, paymentSection, confirmationId, attempt) {
+  attempt = attempt || 0;
+  var maxAttempts = 18; // 18 × 10s = 3 minutes of polling
+  var checkingText = window.t ? window.t('booking.checking_payment') : '';
+  if (!checkingText || checkingText === 'booking.checking_payment') checkingText = 'Checking payment status...';
+
+  // Update the button text with attempt count
+  var payBtn = document.getElementById('payNowBtn');
+  if (payBtn) {
+    payBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .7s linear infinite"><circle cx="12" cy="12" r="10"/></svg> ' + checkingText + ' (' + (attempt + 1) + '/' + maxAttempts + ')';
+  }
+
+  fetch(API_BASE + '/api/check-payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reservationId: reservationId, bookingId: bookingId }),
+    mode: 'cors',
+  })
+  .then(function (res) { return res.json(); })
+  .then(function (data) {
+    if (data.paid) {
+      // Payment confirmed!
+      var html = '';
+      html += '<div class="payment-step-success" style="border-left:4px solid #059669;background:#ECFDF5;">';
+      html += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+      html += '<div>';
+      html += '<h4 style="color:#065F46;">' + (window.t ? window.t('booking.payment_success') : 'Payment Successful \u2014 Reservation Confirmed!') + '</h4>';
+      html += '<p style="font-size:.85rem;color:#059669;margin-top:.25rem;">' + (window.t ? window.t('booking.confirmation_email_sent') : 'A confirmation email has been sent to you.') + '</p>';
+      html += '</div>';
+      html += '</div>';
+      paymentSection.innerHTML = html;
+      gtmPush('payment_completed', { booking_id: bookingId });
+    } else if (attempt < maxAttempts - 1) {
+      // Keep polling
+      setTimeout(function () {
+        pollPaymentStatus(reservationId, bookingId, paymentSection, confirmationId, attempt + 1);
+      }, 10000);
+    } else {
+      // Max attempts reached — show manual options (do NOT auto-cancel)
+      showPaymentUncertain(reservationId, bookingId, paymentSection, confirmationId);
+    }
+  })
+  .catch(function (err) {
+    console.error('Check payment error:', err);
+    // On network error, keep trying
+    if (attempt < maxAttempts - 1) {
+      setTimeout(function () {
+        pollPaymentStatus(reservationId, bookingId, paymentSection, confirmationId, attempt + 1);
+      }, 10000);
+    } else {
+      showPaymentUncertain(reservationId, bookingId, paymentSection, confirmationId);
+    }
+  });
+}
+
+function showPaymentUncertain(reservationId, bookingId, paymentSection, confirmationId) {
+  var html = '';
+  html += '<div class="payment-step-success" style="border-left:4px solid #F59E0B;background:#FFFBEB;">';
+  html += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  html += '<div>';
+  html += '<h4 style="color:#92400E;">Payment Not Yet Confirmed</h4>';
+  html += '<p style="font-size:.85rem;color:#B45309;margin-top:.25rem;">If you completed the payment, it may take a moment to process. You can keep checking or contact us.</p>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div class="payment-step-action" style="text-align:center;padding:1.5rem;">';
+  html += '<button class="btn btn-accent btn-lg" id="keepCheckingBtn" style="font-size:1rem;padding:.85rem 2rem;cursor:pointer;border:none;margin-bottom:.75rem;">';
+  html += 'Keep Checking';
+  html += '</button>';
+  html += '<br>';
+  html += '<button class="btn btn-lg" id="cancelReservationBtn" style="font-size:.9rem;padding:.65rem 1.5rem;cursor:pointer;border:1px solid #DC2626;background:transparent;color:#DC2626;border-radius:8px;margin-top:.5rem;">';
+  html += 'I Did Not Pay \u2014 Cancel Reservation';
+  html += '</button>';
+  html += '<p style="font-size:.82rem;color:var(--color-text-muted);margin-top:1rem;">' + (window.t ? window.t('booking.or_contact') : 'Or contact us:') + ' <a href="mailto:info@amanthosliving.com" style="color:var(--color-primary);">info@amanthosliving.com</a></p>';
+  html += '</div>';
+  paymentSection.innerHTML = html;
+
+  var keepBtn = document.getElementById('keepCheckingBtn');
+  if (keepBtn) {
+    keepBtn.addEventListener('click', function () {
+      // Restart polling for another 3 minutes
+      pollPaymentStatus(reservationId, bookingId, paymentSection, confirmationId, 0);
+    });
+  }
+
+  var cancelBtn = document.getElementById('cancelReservationBtn');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', function () {
+      cancelUnpaidBooking(reservationId, bookingId, paymentSection);
+    });
+  }
+}
+
 function cancelUnpaidBooking(reservationId, bookingId, paymentSection) {
   fetch(API_BASE + '/api/cancel-booking', {
     method: 'POST',
@@ -1373,7 +1465,7 @@ function cancelUnpaidBooking(reservationId, bookingId, paymentSection) {
       html2 += '<div class="payment-step-success" style="border-left:4px solid #059669;background:#ECFDF5;">';
       html2 += '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
       html2 += '<div>';
-      html2 += '<h4 style="color:#065F46;">' + (window.t ? window.t('booking.payment_success') : 'Payment Successful — Reservation Confirmed!') + '</h4>';
+      html2 += '<h4 style="color:#065F46;">' + (window.t ? window.t('booking.payment_success') : 'Payment Successful \u2014 Reservation Confirmed!') + '</h4>';
       html2 += '<p style="font-size:.85rem;color:#059669;margin-top:.25rem;">' + (window.t ? window.t('booking.confirmation_email_sent') : 'A confirmation email has been sent to you.') + '</p>';
       html2 += '</div>';
       html2 += '</div>';
@@ -1514,11 +1606,8 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
       var pollTimer = setInterval(function () {
         if (popup.closed) {
           clearInterval(pollTimer);
-          // Grace period: wait 20 seconds for Adyen webhook to reach Apaleo before checking
-          payBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .7s linear infinite"><circle cx="12" cy="12" r="10"/></svg> ' + (window.t ? window.t('booking.checking_payment') : 'Checking payment status...');
-          setTimeout(function () {
-            cancelUnpaidBooking(reservationId, confirmationId, paymentSection);
-          }, 20000);
+          // Popup closed — start polling for payment status (never auto-cancel)
+          pollPaymentStatus(reservationId, confirmationId, paymentSection, confirmationId, 0);
         }
       }, 2000);
     });

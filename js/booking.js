@@ -1441,9 +1441,13 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
   html += '<div style="background:#FEE2E2;border:2px solid #DC2626;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center;">';
   html += '<p style="color:#DC2626;font-weight:800;font-size:1.05rem;margin:0;">';
   html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" style="vertical-align:middle;margin-right:.4rem;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
-  html += (window.t ? window.t('booking.not_confirmed_yet') : 'Your booking is NOT yet confirmed!');
+  var notConfirmedText = window.t ? window.t('booking.not_confirmed_yet') : '';
+  if (!notConfirmedText || notConfirmedText === 'booking.not_confirmed_yet') notConfirmedText = 'You do not have a valid booking yet!';
+  html += escapeHtml(notConfirmedText);
   html += '</p>';
-  html += '<p style="color:#991B1B;font-size:.85rem;margin:.4rem 0 0;">' + (window.t ? window.t('booking.will_be_cancelled') : 'Without payment, your reservation will be automatically cancelled.') + '</p>';
+  var cancelWarningText = window.t ? window.t('booking.will_be_cancelled') : '';
+  if (!cancelWarningText || cancelWarningText === 'booking.will_be_cancelled') cancelWarningText = 'Without payment, the booking will be cancelled in 10 minutes.';
+  html += '<p style="color:#991B1B;font-size:.85rem;margin:.4rem 0 0;">' + escapeHtml(cancelWarningText) + '</p>';
   html += '</div>';
   // Reservation reference
   html += '<div class="payment-step-success" style="border-left:4px solid #F59E0B;background:#FFFBEB;">';
@@ -1455,7 +1459,9 @@ function showPaymentStep(confirmationId, paymentLink, email, bookingData) {
   html += '</div>';
   // Payment action area
   html += '<div class="payment-step-action">';
-  html += '<p style="font-size:.8rem;color:var(--color-text-muted);margin-bottom:.5rem;font-weight:600;letter-spacing:.5px;">' + (window.t ? window.t('booking.payment_step_indicator') : 'Step 2 of 2 — Payment') + '</p>';
+  var stepText = window.t ? window.t('booking.payment_step_indicator') : '';
+  if (!stepText || stepText === 'booking.payment_step_indicator') stepText = 'Step 2 of 2 \u2014 Payment';
+  html += '<p style="font-size:.8rem;color:var(--color-text-muted);margin-bottom:.5rem;font-weight:600;letter-spacing:.5px;">' + escapeHtml(stepText) + '</p>';
   html += '<p class="payment-instruction" style="font-weight:600;color:var(--color-text);margin-bottom:.75rem;font-size:1.05rem;">' + escapeHtml(paymentMsg) + '</p>';
   if (totalText) {
     html += '<p style="font-size:1.8rem;font-weight:800;color:var(--color-primary);font-family:var(--font-heading);margin:.75rem 0;letter-spacing:-.5px;">' + escapeHtml(totalText) + '</p>';

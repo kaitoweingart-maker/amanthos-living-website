@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hotel List Feed for Google Hotel Center / Free Booking Links.
+  Imported via Hotel Center -> Hotel list -> Add hotel list.
+  Fetch URL: https://www.amanthosliving.com/feeds/hotel_list.xml
+
+  TODO before submitting:
+    - Fill in <address>, <phone>, <latitude>, <longitude> for each property.
+    - Verify each <id> matches the property code used in /js/booking.js (GBAL/GNBE/NYAL).
+    - Each property must have a verified Google Business Profile under the same
+      Google account that owns the Hotel Center; <name> and address must match
+      the GBP entry exactly, otherwise Hotel Center rejects the listing.
+-->
+<listings>
+  <language>en</language>
+
+  <listing>
+    <id>GBAL</id>
+    <name>Amanthos Living — Zurich Airport</name>
+    <address format="simple">
+      <component name="addr1">TODO street</component>
+      <component name="city">TODO city</component>
+      <component name="postal_code">TODO PLZ</component>
+      <component name="country">CH</component>
+    </address>
+    <phone>TODO phone</phone>
+    <category>hotel</category>
+    <latitude>TODO</latitude>
+    <longitude>TODO</longitude>
+    <url>https://www.amanthosliving.com/zurich-airport/</url>
+  </listing>
+
+  <listing>
+    <id>GNBE</id>
+    <name>Amanthos Living — Solothurn / Grenchen</name>
+    <address format="simple">
+      <component name="addr1">TODO street</component>
+      <component name="city">TODO city</component>
+      <component name="postal_code">TODO PLZ</component>
+      <component name="country">CH</component>
+    </address>
+    <phone>TODO phone</phone>
+    <category>hotel</category>
+    <latitude>TODO</latitude>
+    <longitude>TODO</longitude>
+    <url>https://www.amanthosliving.com/solothurn-grenchen/</url>
+  </listing>
+
+  <listing>
+    <id>NYAL</id>
+    <name>Amanthos Living — Nyon / Duillier</name>
+    <address format="simple">
+      <component name="addr1">TODO street</component>
+      <component name="city">TODO city</component>
+      <component name="postal_code">TODO PLZ</component>
+      <component name="country">CH</component>
+    </address>
+    <phone>TODO phone</phone>
+    <category>hotel</category>
+    <latitude>TODO</latitude>
+    <longitude>TODO</longitude>
+    <url>https://www.amanthosliving.com/nyon-duillier/</url>
+  </listing>
+</listings>

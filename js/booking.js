@@ -1233,12 +1233,33 @@ if (confirmBtn) {
       confirmBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> ' + (window.t ? window.t('booking.confirm_reservation') : 'Confirm Reservation');
 
       if (data.success) {
+        var bookingCurrency = selectedOffer.totalGrossAmount ? selectedOffer.totalGrossAmount.currency : 'CHF';
         gtmPush('booking_confirmed', {
           booking_id: data.confirmationId || '',
           total_price: finalTotal,
-          currency: selectedOffer.totalGrossAmount ? selectedOffer.totalGrossAmount.currency : 'CHF',
+          currency: bookingCurrency,
           promo_code: appliedPromo ? appliedPromo.code : ''
         });
+
+        // Google Hotel Center / Free Booking Links conversion attribution.
+        // Fires only if the session originated from a Google deeplink so
+        // Hotel Center can match the click to this booking.
+        var bookingSource = null;
+        try {
+          var raw = sessionStorage.getItem('amanthos_booking_source');
+          if (raw) bookingSource = JSON.parse(raw);
+        } catch (e) {}
+        if (bookingSource && /google/i.test(bookingSource.utm_source || '')) {
+          gtmPush('book_on_google_conversion', {
+            transaction_id: data.confirmationId || '',
+            value: finalTotal,
+            currency: bookingCurrency,
+            hotel_id: searchParams.propertyId || '',
+            utm_source: bookingSource.utm_source,
+            utm_medium: bookingSource.utm_medium,
+            utm_campaign: bookingSource.utm_campaign
+          });
+        }
 
         guestForm.querySelector('.form-grid').style.display = 'none';
         guestForm.querySelector('.form-actions').style.display = 'none';
@@ -1806,5 +1827,106 @@ window.amanthosBooking = {
     selectLocation(val);
   }
 };
+
+// ========== DEEPLINK SUPPORT (Google Hotel Center / Free Booking Links) ==========
+// Reads URL query params, validates them, prefills the booking form and
+// auto-triggers the search. Used by Google's Free Booking Links and any
+// external partner that links here with structured params.
+//
+// Recognised params (Google Hotel Center macros map to these):
+//   hotel_id        -> property code (GBAL | GNBE | NYAL)
+//   checkin         -> YYYY-MM-DD
+//   checkout        -> YYYY-MM-DD
+//   num_adults      -> 1..6
+//   num_children    -> 0..4
+//   utm_source / utm_medium / utm_campaign -> attribution
+function parseDeeplinkParams() {
+  if (!window.location.search || window.location.search.length < 2) return null;
+  var p = new URLSearchParams(window.location.search);
+  var hotelId = p.get('hotel_id') || p.get('property_id');
+  var checkinStr = p.get('checkin') || p.get('check_in');
+  var checkoutStr = p.get('checkout') || p.get('check_out');
+  var adultsStr = p.get('num_adults') || p.get('adults');
+  var childrenStr = p.get('num_children') || p.get('children');
+
+  if (!hotelId || !PROPERTIES[hotelId]) return null;
+
+  var dateRe = /^\d{4}-\d{2}-\d{2}$/;
+  if (!checkinStr || !checkoutStr || !dateRe.test(checkinStr) || !dateRe.test(checkoutStr)) return null;
+  if (checkoutStr <= checkinStr) return null;
+
+  var ci = new Date(checkinStr + 'T00:00:00');
+  var co = new Date(checkoutStr + 'T00:00:00');
+  if (isNaN(ci.getTime()) || isNaN(co.getTime())) return null;
+
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  if (ci < today) return null;
+
+  var adults = 2;
+  if (adultsStr && /^\d+$/.test(adultsStr)) adults = Math.max(1, Math.min(6, parseInt(adultsStr, 10)));
+  var children = 0;
+  if (childrenStr && /^\d+$/.test(childrenStr)) children = Math.max(0, Math.min(4, parseInt(childrenStr, 10)));
+
+  return {
+    hotelId: hotelId,
+    checkinStr: checkinStr,
+    checkoutStr: checkoutStr,
+    checkin: ci,
+    checkout: co,
+    adults: adults,
+    children: children,
+    utm_source: p.get('utm_source') || '',
+    utm_medium: p.get('utm_medium') || '',
+    utm_campaign: p.get('utm_campaign') || ''
+  };
+}
+
+function applyDeeplink(d) {
+  selectLocation(d.hotelId);
+
+  cal.checkin = d.checkin;
+  cal.checkout = d.checkout;
+  cal.month = d.checkin.getMonth();
+  cal.year = d.checkin.getFullYear();
+  syncInputs();
+
+  if (guestInput) guestInput.value = d.adults;
+  if (childInput) childInput.value = d.children;
+  updateGuestsLabel();
+
+  gtmPush('deeplink_arrival', {
+    hotel_id: d.hotelId,
+    check_in: d.checkinStr,
+    check_out: d.checkoutStr,
+    utm_source: d.utm_source,
+    utm_medium: d.utm_medium,
+    utm_campaign: d.utm_campaign
+  });
+
+  try {
+    sessionStorage.setItem('amanthos_booking_source', JSON.stringify({
+      utm_source: d.utm_source,
+      utm_medium: d.utm_medium,
+      utm_campaign: d.utm_campaign,
+      ts: Date.now()
+    }));
+  } catch (e) {}
+
+  setTimeout(function () {
+    if (searchBtn) searchBtn.click();
+    var section = document.getElementById('booking');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 150);
+}
+
+(function initDeeplink() {
+  var d = parseDeeplinkParams();
+  if (!d) return;
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { applyDeeplink(d); });
+  } else {
+    applyDeeplink(d);
+  }
+})();
 
 })();

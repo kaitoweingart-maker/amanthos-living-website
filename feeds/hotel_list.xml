@@ -15,7 +15,7 @@
 
   <listing>
     <id>GBAL</id>
-    <name>Amanthos Living — Zurich Airport</name>
+    <name>Amanthos Living Zürich Airport</name>
     <address format="simple">
       <component name="addr1">Oberhauserstrasse 30</component>
       <component name="city">Glattbrugg</component>
@@ -31,7 +31,7 @@
 
   <listing>
     <id>GNBE</id>
-    <name>Amanthos Living — Solothurn / Grenchen</name>
+    <name>Amanthos Living Solothurn</name>
     <address format="simple">
       <component name="addr1">Bettlachstrasse 20</component>
       <component name="city">Grenchen</component>
@@ -47,7 +47,7 @@
 
   <listing>
     <id>NYAL</id>
-    <name>Amanthos Living — Nyon / Duillier</name>
+    <name>Amanthos Living Nyon</name>
     <address format="simple">
       <component name="addr1">Rue du Château 11</component>
       <component name="city">Duillier</component>

@@ -4,12 +4,11 @@
   Imported via Hotel Center -> Hotel list -> Add hotel list.
   Fetch URL: https://www.amanthosliving.com/feeds/hotel_list.xml
 
-  TODO before submitting:
-    - Fill in <address>, <phone>, <latitude>, <longitude> for each property.
-    - Verify each <id> matches the property code used in /js/booking.js (GBAL/GNBE/NYAL).
-    - Each property must have a verified Google Business Profile under the same
-      Google account that owns the Hotel Center; <name> and address must match
-      the GBP entry exactly, otherwise Hotel Center rejects the listing.
+  Each <id> must match the property code used in /js/booking.js
+  (GBAL/GNBE/NYAL). Each property must have a verified Google Business
+  Profile under the same Google account that owns the Hotel Center;
+  <name> and address must match the GBP entry exactly, otherwise
+  Hotel Center rejects the listing.
 -->
 <listings>
   <language>en</language>
@@ -18,15 +17,15 @@
     <id>GBAL</id>
     <name>Amanthos Living — Zurich Airport</name>
     <address format="simple">
-      <component name="addr1">TODO street</component>
-      <component name="city">TODO city</component>
-      <component name="postal_code">TODO PLZ</component>
+      <component name="addr1">Oberhauserstrasse 30</component>
+      <component name="city">Glattbrugg</component>
+      <component name="postal_code">8152</component>
       <component name="country">CH</component>
     </address>
-    <phone>TODO phone</phone>
+    <phone>+41 43 217 86 94</phone>
     <category>hotel</category>
-    <latitude>TODO</latitude>
-    <longitude>TODO</longitude>
+    <latitude>47.4319</latitude>
+    <longitude>8.5615</longitude>
     <url>https://www.amanthosliving.com/zurich-airport/</url>
   </listing>
 
@@ -34,15 +33,15 @@
     <id>GNBE</id>
     <name>Amanthos Living — Solothurn / Grenchen</name>
     <address format="simple">
-      <component name="addr1">TODO street</component>
-      <component name="city">TODO city</component>
-      <component name="postal_code">TODO PLZ</component>
+      <component name="addr1">Bettlachstrasse 20</component>
+      <component name="city">Grenchen</component>
+      <component name="postal_code">2540</component>
       <component name="country">CH</component>
     </address>
-    <phone>TODO phone</phone>
+    <phone>+41 41 562 34 88</phone>
     <category>hotel</category>
-    <latitude>TODO</latitude>
-    <longitude>TODO</longitude>
+    <latitude>47.194</latitude>
+    <longitude>7.396</longitude>
     <url>https://www.amanthosliving.com/solothurn-grenchen/</url>
   </listing>
 
@@ -50,15 +49,15 @@
     <id>NYAL</id>
     <name>Amanthos Living — Nyon / Duillier</name>
     <address format="simple">
-      <component name="addr1">TODO street</component>
-      <component name="city">TODO city</component>
-      <component name="postal_code">TODO PLZ</component>
+      <component name="addr1">Rue du Château 11</component>
+      <component name="city">Duillier</component>
+      <component name="postal_code">1266</component>
       <component name="country">CH</component>
     </address>
-    <phone>TODO phone</phone>
+    <phone>+41 41 562 34 87</phone>
     <category>hotel</category>
-    <latitude>TODO</latitude>
-    <longitude>TODO</longitude>
+    <latitude>46.4082</latitude>
+    <longitude>6.2348</longitude>
     <url>https://www.amanthosliving.com/nyon-duillier/</url>
   </listing>
 </listings>

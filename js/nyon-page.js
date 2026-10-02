@@ -15,6 +15,15 @@
  * gleich; locale: 'fr' sorgt dafuer, dass die Eingangsbestaetigung franzoesisch
  * ist. Ohne dieses Feld waere sie deutsch, weil der Referer cross-origin auf
  * die Origin gekuerzt wird und das Backend die Seite nicht unterscheiden kann.
+ *
+ * Herkunft (Fix 03.10.2026): Die Kampagne wird beim Seitenaufruf gelesen und in
+ * sessionStorage gemerkt, nicht erst beim Absenden aus der Adresse. Fehlen die
+ * UTM-Parameter, aber traegt die Adresse eine Klick-Kennung, steht als Quelle
+ * `google / gclid` bzw. `meta / fbclid`: das Backend schreibt daraus die Zeile
+ * `Kampagne <quelle> / <medium> / <kampagne>`, und genau diese Zeile liest der
+ * Vertriebsscan (jarvis, services/vertrieb/herkunft.ts). Gemerkt wird nur, dass
+ * eine Kennung da war, nie ihr Wert; die Kennungen selbst laufen weiter allein
+ * ueber window.amMeta.tracking() und damit nur mit Einwilligung.
  */
 (function () {
   'use strict';
@@ -22,8 +31,11 @@
   var CFG = (typeof window !== 'undefined' && window.NYON_CONFIG) ? window.NYON_CONFIG : {};
   var DATA = (typeof window !== 'undefined' && window.NYON_UNITS) ? window.NYON_UNITS : { UNITS: [] };
 
-  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign'];
-  var UTM_RE = /^[\w .\-|()]{1,120}$/;
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  // Gleiches Muster wie js/grenchen-page.js und `_UTM` in contact_nyon.py: was
+  // das Backend verwirft, wird hier gar nicht erst geschickt.
+  var UTM_RE = /^[A-Za-z0-9._-]{1,64}$/;
+  var STORE_KEY = 'am_nyon_campaign';
   var MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
   var UNIT_RE = /^(classic|lakeview)$/;
 
@@ -63,6 +75,85 @@
       UTM_KEYS.forEach(function (key) { out[key] = ''; });
     }
     return out;
+  }
+
+  function hatWert(c) {
+    return !!c && UTM_KEYS.some(function (key) { return !!c[key]; });
+  }
+
+  function leer() {
+    var out = {};
+    UTM_KEYS.forEach(function (key) { out[key] = ''; });
+    return out;
+  }
+
+  // Jedes Objekt (gespeichert, aus meta.js) laeuft durch dieselbe Pruefung wie
+  // die Adresse: sessionStorage ist von aussen beschreibbar.
+  function clean(c) {
+    var out = leer();
+    if (!c || typeof c !== 'object') { return out; }
+    UTM_KEYS.forEach(function (key) {
+      var v = str(c[key]);
+      out[key] = UTM_RE.test(v) ? v : '';
+    });
+    return out;
+  }
+
+  /**
+   * Kampagne aus einer Adresse. UTM-Werte gehen vor; fehlen sie, aber steht eine
+   * Klick-Kennung in der Adresse, wird die Quelle daraus abgeleitet. Google-Ads
+   * mit Auto-Tagging und Meta-Anzeigen ohne url_tags tragen nur die Kennung.
+   */
+  function campaignFromUrl(search) {
+    var c = readCampaign(search);
+    if (hatWert(c)) { return c; }
+    try {
+      var p = new URLSearchParams(str(search));
+      if (str(p.get('gclid'))) { c.utm_source = 'google'; c.utm_medium = 'gclid'; }
+      else if (str(p.get('fbclid'))) { c.utm_source = 'meta'; c.utm_medium = 'fbclid'; }
+    } catch (e) { /* alte Browser: dann eben keine Kampagne */ }
+    return c;
+  }
+
+  /**
+   * Die erste nicht leere Quelle gewinnt: Adresse beim Absenden, dann der
+   * gemerkte Wert dieser Sitzung, dann der Speicher von meta.js (nur mit
+   * Einwilligung, 90 Tage).
+   */
+  function pickCampaign(fromUrl, stored, tracked) {
+    var kandidaten = [clean(fromUrl), clean(stored), clean(tracked)];
+    for (var n = 0; n < kandidaten.length; n++) {
+      if (hatWert(kandidaten[n])) { return kandidaten[n]; }
+    }
+    return leer();
+  }
+
+  function storedCampaign() {
+    try {
+      var roh = window.sessionStorage.getItem(STORE_KEY);
+      return roh ? JSON.parse(roh) : null;
+    } catch (e) { return null; }
+  }
+
+  // Beim Seitenaufruf: nur schreiben, wenn die Adresse etwas traegt, sonst
+  // wuerde ein spaeterer Aufruf ohne Parameter die Kampagne der Sitzung loeschen.
+  function rememberCampaign(search) {
+    var c = campaignFromUrl(search);
+    if (!hatWert(c)) { return; }
+    try { window.sessionStorage.setItem(STORE_KEY, JSON.stringify(c)); } catch (e) { /* Privatmodus */ }
+  }
+
+  function trackedCampaign() {
+    try {
+      var t = window.amMeta && window.amMeta.tracking();
+      if (!t) { return null; }
+      var c = clean(t);
+      if (!hatWert(c)) {
+        if (str(t.gclid)) { c.utm_source = 'google'; c.utm_medium = 'gclid'; }
+        else if (str(t.fbclid)) { c.utm_source = 'meta'; c.utm_medium = 'fbclid'; }
+      }
+      return c;
+    } catch (e) { return null; }
   }
 
   function buildPayload(input) {
@@ -198,7 +289,8 @@
         message: D.message && D.message.value,
         companyWebsite: D.honig && D.honig.value,
         eventId: newEventId(),
-        campaign: readCampaign(window.location.search),
+        campaign: pickCampaign(campaignFromUrl(window.location.search),
+          storedCampaign(), trackedCampaign()),
         gclid: ids.gclid,
         fbclid: ids.fbclid
       });
@@ -211,6 +303,7 @@
       leadEvents(payload);
     }
 
+    rememberCampaign(window.location.search);
     fuelleAuswahl();
 
     on(D.form, 'submit', function (ev) {
@@ -258,7 +351,11 @@
   }
 
   // fuer die Tests
-  var api = { buildPayload: buildPayload, readCampaign: readCampaign, statusText: statusText, VERSION: '1' };
+  var api = {
+    buildPayload: buildPayload, readCampaign: readCampaign, campaignFromUrl: campaignFromUrl,
+    pickCampaign: pickCampaign, rememberCampaign: rememberCampaign, storedCampaign: storedCampaign,
+    statusText: statusText, STORE_KEY: STORE_KEY, VERSION: '2'
+  };
   if (typeof module === 'object' && module.exports) { module.exports = api; }
   if (typeof window !== 'undefined' && window) { window.NYON_PAGE = api; }
 })();

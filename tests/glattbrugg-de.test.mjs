@@ -347,7 +347,9 @@ test('Zugaenglichkeit: nichts ist nur mit Animation sichtbar', () => {
 test('Bilder: nur vorhandene Dateien unter images/zurich/, keine neue', () => {
   const quellen = [...page.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
   const preload = [...page.matchAll(/<link\b[^>]*\brel="preload"[^>]*\bhref="(\.\.\/images\/[^"]+)"/g)].map((m) => m[1]);
-  assert.ok(quellen.length >= 3);
+  // Erwartung geaendert beim Abgleich mit der englischen Seite: die zwei Fotos im
+  // Abschnitt Suiten sind entfallen (Kategorie nicht belegt), es bleibt das Hero-Bild.
+  assert.deepEqual(quellen, ['../images/zurich/hero.webp']);
   for (const q of [...quellen, ...preload]) {
     assert.match(q, /^\.\.\/images\/zurich\/[a-z0-9-]+\.webp$/, `${q} liegt nicht unter images/zurich/`);
     assert.ok(existsSync(join(root, q.replace(/^\.\.\//, ''))), `${q} existiert nicht`);

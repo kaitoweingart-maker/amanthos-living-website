@@ -461,6 +461,13 @@ test('K5: beide Seiten tragen dieselbe ID-Menge, Abschnittsreihenfolge und Skrip
     assert.deepEqual(ids(seiten.de), ids(seiten.en));
     assert.deepEqual(abschnitte(seiten.de), abschnitte(seiten.en));
     assert.deepEqual(endSkripte(seiten.de), endSkripte(seiten.en));
+    // Gleicher Aufbau in beiden Sprachen: dieselben Klassen in derselben Reihenfolge, derselbe
+    // kritische Stilblock, kein Inline-Stil. Texte duerfen abweichen, die Gestalt nicht.
+    const klassen = (html) => [...html.slice(html.indexOf('<body')).matchAll(/\bclass="([^"]*)"/g)].map((m) => m[1]);
+    const stil = (html) => /<style>\*\{margin:0[\s\S]*?<\/style>/.exec(html)[0];
+    assert.deepEqual(klassen(seiten.de), klassen(seiten.en));
+    assert.equal(stil(seiten.de), stil(seiten.en));
+    for (const html of [seiten.de, seiten.en]) assert.doesNotMatch(html, /\sstyle="/, 'Inline-Stil im HTML');
   });
 
 test('K5: jedes getElementById-Literal in js/glattbrugg-page.js steht im Fixture',

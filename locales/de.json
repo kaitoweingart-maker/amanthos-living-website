@@ -318,10 +318,10 @@
     "learn_more": "Datenschutz"
   },
   "longstay": {
-    "nav": "Wohnen auf Zeit",
-    "label": "Monatsaufenthalte",
-    "title": "Wohnen auf Zeit am Flughafen Zürich",
-    "intro": "Möblierte Business-Suite mit Küche, WLAN und Arbeitsplatz, 1 km vom Flughafen Zürich, ab einem Monat, digitaler Check-in.",
+    "nav": "Longstay",
+    "label": "Longstay",
+    "title": "Suite auf Zeit am Flughafen Zürich",
+    "intro": "Hotelaufenthalt von 30 bis höchstens 89 Nächten, 1 km zum Flughafen Zürich.",
     "price_loading": "Monatspreis wird geladen",
     "benefit_kitchen": "Voll ausgestattete Küche",
     "benefit_wifi": "Schnelles WLAN kostenlos",

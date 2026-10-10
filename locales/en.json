@@ -318,10 +318,10 @@
     "learn_more": "Privacy Policy"
   },
   "longstay": {
-    "nav": "Extended Stay",
-    "label": "Monthly stays",
-    "title": "Extended stay at Zurich Airport",
-    "intro": "Furnished business suite with kitchen, Wi-Fi and workspace, 1 km from Zurich Airport, from one month, digital check-in.",
+    "nav": "Long stay",
+    "label": "Long stay",
+    "title": "Long stay suites at Zurich Airport",
+    "intro": "Hotel stay of 30 to a maximum of 89 nights, 1 km to Zurich Airport.",
     "price_loading": "Loading the monthly price",
     "benefit_kitchen": "Fully equipped kitchen",
     "benefit_wifi": "Fast Wi-Fi, free of charge",

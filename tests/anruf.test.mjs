@@ -139,8 +139,10 @@ test('das Seitenskript laedt vor der Anrufmessung, sonst greift die Weiche nicht
   // ga4Zustaendig() liest window.amLongstayPage und window.amGrenchenPage. Beide
   // entstehen beim Ausfuehren des Seitenskripts. defer haelt die Reihenfolge des
   // Dokuments ein, also muss anruf.js hinter dem Seitenskript stehen.
+  // Geaenderte Erwartung: /zurich/ stand hier mit js/longstay-page.js. Seit dem Entscheid vom
+  // 10.10.2026 (alter Abschnitt Wohnen auf Zeit verborgen) laedt die Seite das Skript nicht
+  // mehr; der Test darunter prueft, dass anruf.js dort den Klick selbst an GA4 meldet.
   const paare = [
-    ['zurich/index.html', 'js/longstay-page.js'],
     ['grenchen-mieten/index.html', 'js/grenchen-page.js'],
     ['grenchen-louer/index.html', 'js/grenchen-page.js']
   ];
@@ -150,6 +152,14 @@ test('das Seitenskript laedt vor der Anrufmessung, sonst greift die Weiche nicht
     assert.ok(html.indexOf('js/anruf.js') > html.indexOf(seitenskript),
       `${seite} laedt anruf.js vor ${seitenskript}`);
   }
+});
+
+test('/zurich/ laedt kein Seitenskript mit eigener Anrufmessung, anruf.js meldet dort selbst', () => {
+  // Ohne js/longstay-page.js entsteht window.amLongstayPage auf /zurich/ nicht mehr, also ist
+  // ga4Zustaendig() dort wahr, und jeder tel:-Klick der Seite geht als phone_click an GA4.
+  const html = readFileSync(join(here, '..', 'zurich/index.html'), 'utf8');
+  assert.doesNotMatch(html, /<script\b[^>]*\bsrc="[^"]*js\/(longstay|grenchen)-page\.js"/);
+  assert.match(html, /<script\b[^>]*\bsrc="\.\.\/js\/anruf\.js"/);
 });
 
 test('die Richtlinie der vier Seiten erlaubt den Anruf-Loader von gstatic', () => {

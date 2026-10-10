@@ -150,7 +150,7 @@
       <li><a href="../solothurn/">Solothurn</a></li>
       <li><a href="../nyon/">Nyon</a></li>
       <li><a href="../#faq">FAQ</a></li>
-      <li id="ls-nav"><a href="#wohnen-auf-zeit" data-i18n="longstay.nav">Wohnen auf Zeit</a></li>
+      <li id="ls-nav"><a href="#wohnen-auf-zeit" data-i18n="longstay.nav">Longstay</a></li>
       <li><a href="#book" class="nav-cta">Book Zurich</a></li>
       <li><div id="langSelector" class="lang-selector"></div></li>
     </ul>
@@ -243,18 +243,20 @@
     </div>
   </section>
 
-  <!-- Wohnen auf Zeit (Bauplan living-wohnen-nyon-fr, Segment 1, Kontrakt K5,
-       Faktenblatt K11). Traegt hidden, bis die Verdrahtung den Abschnitt und den
-       Nav-Eintrag ls-nav freischaltet; bis dahin ist er weder sichtbar noch im
-       Tab-Weg. Preiszeile und Statusmeldungen fuellt js/longstay-page.js zur
-       Laufzeit aus /api/offers, deshalb steht hier keine Monatszahl. Die Texte
-       sind deutsch, die englische Fassung liegt unter longstay in
-       locales/en.json und locales/de.json. -->
+  <!-- Longstay-Verweis (Entscheid Bogdan 10.10.2026, Bauplan glattbrugg-longstay,
+       Abschnitt 4 und Freigabe F13). Sichtbar sind nur Label, Titel, Einleitung und
+       die zwei Verweise auf die Longstay-Seiten. Der fruehere Abschnitt Wohnen auf
+       Zeit (Bauplan living-wohnen-nyon-fr: Monatspreis aus /api/offers, Buchungsknopf,
+       Formular living-longstay) steht unveraendert im Block ls-alt, verborgen mit
+       hidden und inert. Die Seite laedt sein Seitenskript nicht mehr, damit nichts
+       davon sichtbar wird, kein Monatspreis abgefragt und das Formular nicht gesendet
+       wird. Wieder einschalten nur mit eigenem Plan. Die Texte sind deutsch, die
+       englische Fassung liegt unter longstay in locales/en.json und locales/de.json. -->
   <section lang="de" id="wohnen-auf-zeit" class="section section-alt ls-section">
     <div class="container container-narrow">
-      <p class="section-label" data-i18n="longstay.label">Monatsaufenthalte</p>
-      <h2 class="section-title" data-i18n="longstay.title">Wohnen auf Zeit am Flughafen Zürich</h2>
-      <p class="section-subtitle" data-i18n="longstay.intro">Möblierte Business-Suite mit Küche, WLAN und Arbeitsplatz, 1 km vom Flughafen Zürich, ab einem Monat, digitaler Check-in.</p>
+      <p class="section-label" data-i18n="longstay.label">Longstay</p>
+      <h2 class="section-title" data-i18n="longstay.title">Suite auf Zeit am Flughafen Zürich</h2>
+      <p class="section-subtitle" data-i18n="longstay.intro">Hotelaufenthalt von 30 bis höchstens 89 Nächten, 1 km zum Flughafen Zürich.</p>
 
       <!-- Verweis auf die zwei Longstay-Seiten (Bauplan glattbrugg-longstay, Abschnitt 4).
            Ohne data-i18n: die 22 Schluessel dieses Abschnitts sind im Kontrakttest gepinnt,
@@ -262,6 +264,9 @@
       <p class="ls-contact">Hotelaufenthalt von 30 bis höchstens 89 Nächten: <a href="../longstay-zuerich-flughafen/" hreflang="de">Suite auf Zeit am Flughafen Zürich</a></p>
       <p class="ls-contact" lang="en">Hotel stay of 30 to a maximum of 89 nights: <a href="../long-stay-zurich-airport/" hreflang="en">Long stay suites at Zurich Airport</a></p>
 
+      <!-- Verborgen seit 10.10.2026: der fruehere Abschnitt, Markup unveraendert und nicht
+           neu eingerueckt, damit der Diff nur den Rahmen zeigt. -->
+      <div id="ls-alt" hidden inert>
       <p class="ls-price" id="ls-price" data-i18n="longstay.price_loading">Monatspreis wird geladen</p>
       <p class="ls-price-note" id="ls-price-note"></p>
       <div class="ls-actions">
@@ -325,6 +330,7 @@
       </div>
 
       <p class="ls-contact">Telefon: <a href="tel:+41415629700">+41 41 562 97 00</a>, E-Mail: <a href="mailto:info@amanthosliving.com">info@amanthosliving.com</a></p>
+      </div>
     </div>
   </section>
 
@@ -644,8 +650,6 @@
   <script src="../js/deeplink.js" defer></script>
   <script src="../js/booking.js" defer></script>
   <script src="../js/chat.js" defer></script>
-  <script src="../js/longstay-config.js" defer></script>
-  <script src="../js/longstay-page.js" defer></script>
   <script src="../js/anruf.js" defer></script>
 </body>
 </html>

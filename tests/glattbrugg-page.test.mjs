@@ -8,7 +8,7 @@
  * Die Ereignisse laufen gegen ein Fake-window, das nur aufzeichnet.
  *
  * Alle Werte sind synthetisch (Testperson Muster, test-lead@example.invalid,
- * +41 79 123 45 67). Kein Test ruft einen Produktionsendpunkt.
+ * 0900 000 000). Kein Test ruft einen Produktionsendpunkt.
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -35,7 +35,7 @@ const K3_KEYS = [
 const VOLL = {
   name: '  Testperson Muster  ',
   email: ' test-lead@example.invalid ',
-  phone: '+41 79 123 45 67',
+  phone: '0900 000 000',
   company: 'Beispiel AG',
   unit: 'business',
   arrival: '2026-11',
@@ -346,7 +346,7 @@ test('K4: generate_lead feuert immer, ohne Name, E-Mail, Telefon, Firma oder Nac
     assert.equal(lead.length, 1, String(consent));
     assert.deepEqual(lead[0][2], { lead_form: 'glattbrugg', unit: 'business', duration_months: '2', locale: 'de' });
     const alles = JSON.stringify(w.gtagCalls) + JSON.stringify(w.fbqCalls) + JSON.stringify(w.plausibleCalls);
-    for (const pii of ['Testperson', 'example.invalid', '+41 79', 'Beispiel AG', 'Testnachricht']) {
+    for (const pii of ['Testperson', 'example.invalid', '0900 000', 'Beispiel AG', 'Testnachricht']) {
       assert.ok(!alles.includes(pii), `PII im Ereignis: ${pii}`);
     }
   }

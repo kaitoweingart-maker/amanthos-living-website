@@ -288,7 +288,7 @@ test('K7: Telefon und Adresse stammen aus K2, keine weitere Nummer, keine fremde
 
 test('K7: Sie-Form, Schweizer Orthografie und kein Gedankenstrich', () => {
   const text = sichtbar(page);
-  assert.doesNotMatch(page, /—/, 'Gedankenstrich');
+  assert.doesNotMatch(page, /\u2014/, 'Gedankenstrich');
   assert.doesNotMatch(page, /ß/, 'Eszett');
   assert.doesNotMatch(text, /\b(dein|deine|deinen|deiner|euch|euer)\b/i, 'Du-Form');
   assert.match(text, /\bSie\b/);

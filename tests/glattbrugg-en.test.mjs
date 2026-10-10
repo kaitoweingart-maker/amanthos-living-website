@@ -82,8 +82,8 @@ const K7_TEXTE = Object.values(K7_EN).map((s) => s.toLowerCase());
 // Jede steht hier einzeln und wird im Bericht genannt.
 const KOMPOSIT = [
   'Glattbrugg, 1 km to Zurich Airport', // Zeile 10 und 11 zusammengezogen (Hero-Zeile)
-  'Prices on request: +41 41 562 97 00 or sales@amanthosliving.com', // "Unbekanntes heisst on request" plus K7 Nr 17 (noscript)
-  'Call us on +41 41 562 97 00 or write to sales@amanthosliving.com', // K7 Nr 17
+  `Prices on request: ${config.PHONE} or ${config.EMAIL}`, // "Unbekanntes heisst on request" plus K7 Nr 17 (noscript)
+  `Call us on ${config.PHONE} or write to ${config.EMAIL}`, // K7 Nr 17
   'Tell us which category, arrival and length of stay you have in mind' // Formularhinweis, keine Sachaussage
 ].map((s) => s.toLowerCase());
 
@@ -423,9 +423,9 @@ test('Kriterium 7: kein eigenes JavaScript ausser den Ladern im Kopf, keine Hand
   assert.deepEqual([...kopf.matchAll(/\son[a-z]+="([^"]*)"/g)].map((m) => m[1]), ["this.media='all'"]);
 });
 
-test('Kriterium 7: keine Personendaten, nur die zwei freigegebenen Adressen und die Nummer aus K2', () => {
+test('Kriterium 7: keine Personendaten, nur die Adresse und die Nummer aus K2', () => {
   const mails = [...new Set(html.match(/[\w.+-]+@[\w-]+\.[A-Za-z.]+/g) || [])].sort();
-  assert.deepEqual(mails, ['sales@amanthosliving.com']);
+  assert.deepEqual(mails, [config.EMAIL]);
   // Schreibweise mit Leerzeichen und tel:-Link sind dieselbe Nummer.
   const nummern = [...new Set((html.match(/\+41[\d ]{9,}/g) || []).map((n) => n.replace(/\s/g, '')))];
   assert.deepEqual(nummern, [config.PHONE.replace(/\s/g, '')]);

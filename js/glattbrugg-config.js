@@ -10,10 +10,11 @@
  * Test-Harness setzt window.AMANTHOS_API_BASE auf den leeren String (gleiche
  * Origin), und ein leerer String ist falsy.
  *
- * ADS_SEND_TO ist bewusst leer. Leer heisst: kein Conversion-Aufruf. Eine
- * Kampagne ohne eigene Aktion zaehlt ins Leere, und eine fremde Aktion zaehlt
- * falsch. Die Verdrahtung traegt hier 'AW-702540316/<label>' ein, sobald die
- * Aktion im Konto existiert.
+ * ADS_SEND_TO traegt seit der Verdrahtung das Label der eigenen Conversion-Aktion
+ * dieser zwei Seiten. Das Seitenskript loest den Aufruf nur nach einer Antwort
+ * 200 und nur mit Einwilligung aus (K4). Leer hiesse: kein Conversion-Aufruf,
+ * die Kampagne liefe ohne Zaehlung. Das Label des Abschnitts auf /zurich/
+ * (js/longstay-config.js) gehoert zu einer anderen Aktion und zaehlte hier falsch.
  *
  * FORM_KIND geht als form=glattbrugg an das Backend und steuert dort Empfaenger
  * und Betreff. CONTENT_NAME ist der content_name des Meta-Ereignisses Lead.
@@ -31,7 +32,7 @@
     PAGE_URL_EN: 'https://www.amanthosliving.com/long-stay-zurich-airport/',
     GA4_ID: 'G-8LPLG0BPJ6',
     ADS_ID: 'AW-702540316',
-    ADS_SEND_TO: '',
+    ADS_SEND_TO: 'AW-702540316/rBzHCJbBgJgdEJzU_84C',
     CONTENT_NAME: 'glattbrugg-longstay',
     PHONE: '+41 41 562 97 00',
     PHONE_HREF: 'tel:+41415629700',

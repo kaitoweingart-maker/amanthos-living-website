@@ -512,6 +512,19 @@ test('Verdrahtung: llms.txt nennt beide Seiten je einmal', () => {
   }
 });
 
+// Entscheid Bogdan 10.10.2026: Zuerich wird nicht mehr monatsweise angeboten, und die
+// regelmaessige Reinigung gilt nur fuer Hotelaufenthalte; beim Longstay gibt es waehrend des
+// Aufenthalts keine (K7 Nr 14, P2, P4). Ein Sprachmodell liest llms.txt als Faktenquelle.
+test('Verdrahtung: llms.txt bietet Zuerich nicht monatsweise an und nennt die Reinigung beim Longstay richtig', () => {
+  const llms = lies('llms.txt');
+  const flach = llms.replace(/\s+/g, ' '); // Zeilenumbrueche im Fliesstext zaehlen nicht
+  assert.doesNotMatch(flach, /monatsweise|Wohnen auf Zeit/);
+  assert.match(flach, /Bei Hotelaufenthalten [^.]*regelmässige professionelle Reinigung mit Wäschewechsel/);
+  assert.match(flach, /Longstay in Glattbrugg[^.]*Während des Aufenthalts keine Reinigung und kein Wäschetausch; beides ist gegen Aufpreis buchbar\./);
+  assert.match(flach, /Die Endreinigung ist inklusive\./);
+  assert.match(llms, /^Stand dieser Datei: 10\. Oktober 2026\.$/m);
+});
+
 test('Verdrahtung: der Longstay-Abschnitt auf /zurich/ verweist auf beide Seiten', () => {
   const abschnitt = /<section\b[^>]*\bid="wohnen-auf-zeit"[\s\S]*?<\/section>/.exec(lies('zurich', 'index.html'));
   assert.ok(abschnitt, 'der Abschnitt fehlt auf /zurich/');

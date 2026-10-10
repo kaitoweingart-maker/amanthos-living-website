@@ -305,3 +305,75 @@ test('K5: jedes getElementById-Literal in js/longstay-page.js steht im Fixture',
     assert.ok(dom.ids.includes(id), `js/longstay-page.js greift auf unbekannte ID ${id} zu`);
   }
 });
+
+// ---- Entscheid Bogdan 10.10.2026: alter Abschnitt verborgen, nur der Verweis bleibt ----
+// Der Abschnitt zeigte einen Hotelpreis je Monat, einen Buchungsknopf fuer 30 Naechte und ein
+// Formular bis 24 Monate. Das widerspricht dem Longstay-Angebot von 30 bis hoechstens 89 Naechten
+// (Bauplan glattbrugg-longstay, Freigabe F13). Sichtbar bleiben Label, Titel, Einleitung und die
+// zwei Verweise auf die Longstay-Seiten. Alles andere steht unveraendert im Block ls-alt mit
+// hidden und inert, und /zurich/ laedt das Seitenskript nicht mehr: so macht kein Skript etwas
+// davon sichtbar, niemand fragt einen Monatspreis ab, und das Formular laesst sich nicht senden.
+// Die Struktur-Tests oben (IDs, data-i18n-Schluessel) gelten weiter, weil das Markup bleibt.
+
+const NEUTRAL = {
+  de: { nav: 'Longstay', label: 'Longstay', title: 'Suite auf Zeit am Flughafen Zürich',
+    intro: 'Hotelaufenthalt von 30 bis höchstens 89 Nächten, 1 km zum Flughafen Zürich.' },
+  en: { nav: 'Long stay', label: 'Long stay', title: 'Long stay suites at Zurich Airport',
+    intro: 'Hotel stay of 30 to a maximum of 89 nights, 1 km to Zurich Airport.' }
+};
+
+// Sucht den Block <div id="ls-alt" ...> und sein schliessendes </div> ueber die Verschachtelung.
+function altBlock(html) {
+  const start = html.indexOf('<div id="ls-alt"');
+  if (start < 0) return null;
+  const re = /<\/?div\b[^>]*>/g;
+  re.lastIndex = start;
+  let tiefe = 0;
+  for (let m = re.exec(html); m; m = re.exec(html)) {
+    tiefe += m[0].startsWith('</') ? -1 : 1;
+    if (tiefe === 0) return { start, ende: re.lastIndex, tag: html.slice(start, html.indexOf('>', start) + 1) };
+  }
+  return null;
+}
+
+test('Entscheid 10.10.2026: altes Formular und Monatspreis sind auf /zurich/ nicht sichtbar', () => {
+  const html = readFileSync(pageFile, 'utf8');
+  const sec = /<section\b[^>]*\bid="wohnen-auf-zeit"[^>]*>[\s\S]*?<\/section>/.exec(html);
+  assert.ok(sec, 'der Abschnitt fehlt auf /zurich/');
+  const alt = altBlock(sec[0]);
+  assert.ok(alt, 'der verborgene Block ls-alt fehlt im Abschnitt');
+  assert.match(alt.tag, /\shidden[\s>]/, 'ls-alt traegt kein hidden');
+  assert.match(alt.tag, /\sinert[\s>]/, 'ls-alt traegt kein inert');
+  const innen = sec[0].slice(alt.start, alt.ende);
+  const aussen = sec[0].slice(0, alt.start) + sec[0].slice(alt.ende);
+
+  // Jedes Element des alten Abschnitts liegt im verborgenen Block, keines ausserhalb.
+  for (const id of dom.ids.filter((i) => i !== dom.section && i !== dom.nav)) {
+    assert.equal(countId(innen, id), 1, `${id} liegt nicht im verborgenen Block`);
+    assert.equal(countId(aussen, id), 0, `${id} steht ausserhalb des verborgenen Blocks`);
+  }
+  for (const muster of [/<form\b/, /<input\b/, /<button\b/, /ls-benefits/, /mailto:/, /tel:/, /CHF/,
+    /longstay\.(price_loading|book|form_title|move_in|duration|submit|note)/]) {
+    assert.doesNotMatch(aussen, muster, `sichtbar geblieben: ${muster}`);
+  }
+
+  // Sichtbar: Label, Titel, Einleitung und genau zwei Verweise, ohne Monat und ohne Wohnbegriff.
+  const text = aussen.replace(/<!--[\s\S]*?-->/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  assert.doesNotMatch(text, /monat|month|wohnen|einzug|moving in/i);
+  assert.equal((aussen.match(/<a\b/g) || []).length, 2, 'genau zwei Verweise');
+  for (const key of ['label', 'title', 'intro']) {
+    assert.ok(aussen.includes('data-i18n="longstay.' + key + '">' + NEUTRAL.de[key] + '<'), `longstay.${key} im HTML`);
+  }
+  assert.ok(html.includes('data-i18n="longstay.nav">' + NEUTRAL.de.nav + '<'), 'longstay.nav im HTML');
+
+  // Kein Skript des alten Abschnitts: es setzte ls-book.hidden, fragte /api/offers ab und sendete.
+  assert.doesNotMatch(html, /<script\b[^>]*\bsrc="[^"]*js\/longstay-(page|config)\.js"/);
+});
+
+test('Entscheid 10.10.2026: nav, label, title und intro in de.json und en.json sind neutral', () => {
+  for (const lang of ['de', 'en']) {
+    const ls = JSON.parse(readFileSync(join(root, 'locales', lang + '.json'), 'utf8')).longstay;
+    const ist = { nav: ls.nav, label: ls.label, title: ls.title, intro: ls.intro };
+    assert.deepEqual(ist, NEUTRAL[lang], lang);
+  }
+});

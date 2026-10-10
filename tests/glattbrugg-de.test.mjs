@@ -91,11 +91,14 @@ test('Kopf: CSP-Meta ist das erste Element im head, content byte-gleich mit nyon
   assert.equal((page.match(/http-equiv="Content-Security-Policy"/g) || []).length, 1);
 });
 
-test('Kopf: lang="de" und robots noindex, nofollow', () => {
+// Geaenderte Erwartung: bis zur Verdrahtung pinnte dieser Test noindex, nofollow (Segment 1).
+// Der Bauplan laesst die Verdrahtung robots nach der Freigabe auf index, follow stellen
+// (Abschnitt 4); seither ist die Seite indexierbar, und die Sperre darf nicht zurueckkehren.
+test('Kopf: lang="de" und robots index, follow', () => {
   assert.match(page, /^<!DOCTYPE html>\s*<html lang="de">/);
   assert.equal((page.match(/<meta name="robots"[^>]*>/g) || []).length, 1);
-  assert.ok(page.includes('<meta name="robots" content="noindex, nofollow">'));
-  assert.doesNotMatch(page, /index, follow/);
+  assert.ok(page.includes('<meta name="robots" content="index, follow">'));
+  assert.doesNotMatch(page, /noindex|nofollow/);
 });
 
 test('Kopf: canonical auf sich, hreflang de, en und x-default nach K5', () => {

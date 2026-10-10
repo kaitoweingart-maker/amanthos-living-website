@@ -150,10 +150,14 @@ test('Kriterium 2: lang="en" am html-Element', () => {
   assert.equal(attr(/<html\b[^>]*>/.exec(html)[0], 'lang'), 'en');
 });
 
-test('Kriterium 2: robots ist genau einmal noindex, nofollow', () => {
+// Geaenderte Erwartung: bis zur Verdrahtung pinnte dieser Test noindex, nofollow (Segment 2).
+// Der Bauplan laesst die Verdrahtung robots nach der Freigabe auf index, follow stellen
+// (Abschnitt 4); seither ist die Seite indexierbar, und die Sperre darf nicht zurueckkehren.
+test('Kriterium 2: robots ist genau einmal index, follow', () => {
   const robots = html.match(/<meta\b[^>]*\bname="robots"[^>]*>/g) || [];
   assert.equal(robots.length, 1);
-  assert.equal(attr(robots[0], 'content'), 'noindex, nofollow');
+  assert.equal(attr(robots[0], 'content'), 'index, follow');
+  assert.doesNotMatch(html, /noindex|nofollow/);
 });
 
 test('Kriterium 2: canonical zeigt auf die Seite selbst', () => {

@@ -434,7 +434,12 @@ for (const lang of ['de', 'en']) {
   });
 
   test(`K5 ${lang}: robots, canonical und hreflang wechselseitig`, { skip }, () => {
-    assert.ok(html.includes('<meta name="robots" content="' + dom.robots_until_wiring + '">'));
+    // Geaenderte Erwartung: bis zur Verdrahtung trugen die Seiten dom.robots_until_wiring.
+    // Seit die Verdrahtung nach der Freigabe umgestellt hat (Bauplan Abschnitt 4), sind sie
+    // indexierbar. Der Wert im Fixture gilt weiter fuer das Skelett (K14), das nie in den
+    // Index gehoert.
+    assert.ok(html.includes('<meta name="robots" content="index, follow">'));
+    assert.ok(!html.includes(dom.robots_until_wiring), 'die Seite traegt noch die Sperre');
     const canonical = /<link\b[^>]*\brel="canonical"[^>]*>/.exec(html);
     assert.equal(canonical && attr(canonical[0], 'href'), PAGE_URL[lang]);
     const alt = {};
@@ -480,6 +485,38 @@ test('K5: jedes getElementById-Literal in js/glattbrugg-page.js steht im Fixture
     }
     assert.deepEqual(preisTreffer(src), [], 'Preis aus K1 im Quelltext des Skripts');
   });
+
+// ---- Verdrahtung: Eintraege in den Sammelstellen (Bauplan Abschnitt 4) ------
+// Jeder Test hier wird rot, wenn jemand den Eintrag entfernt: ohne Sitemap und ohne den
+// Verweis auf /zurich/ sind die zwei Seiten zwar indexierbar, aber von nirgends erreichbar.
+
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+test('Verdrahtung: sitemap.xml fuehrt beide Seiten je einmal mit weekly und 0.8', () => {
+  const sitemap = lies('sitemap.xml');
+  for (const lang of ['de', 'en']) {
+    const block = new RegExp('<url>\\s*<loc>' + esc(PAGE_URL[lang]) + '</loc>\\s*'
+      + '<lastmod>\\d{4}-\\d{2}-\\d{2}</lastmod>\\s*<changefreq>weekly</changefreq>\\s*'
+      + '<priority>0\\.8</priority>\\s*</url>', 'g');
+    assert.equal((sitemap.match(block) || []).length, 1, PAGE_URL[lang]);
+  }
+});
+
+test('Verdrahtung: llms.txt nennt beide Seiten je einmal', () => {
+  const llms = lies('llms.txt');
+  for (const lang of ['de', 'en']) {
+    assert.equal(llms.split(PAGE_URL[lang]).length - 1, 1, PAGE_URL[lang]);
+  }
+});
+
+test('Verdrahtung: der Longstay-Abschnitt auf /zurich/ verweist auf beide Seiten', () => {
+  const abschnitt = /<section\b[^>]*\bid="wohnen-auf-zeit"[\s\S]*?<\/section>/.exec(lies('zurich', 'index.html'));
+  assert.ok(abschnitt, 'der Abschnitt fehlt auf /zurich/');
+  for (const lang of ['de', 'en']) {
+    const link = new RegExp('<a href="\\.\\./' + esc(dirname(dom.pages[lang])) + '/"[^>]*\\bhreflang="' + lang + '"', 'g');
+    assert.equal((abschnitt[0].match(link) || []).length, 1, dom.pages[lang]);
+  }
+});
 
 test('K5: uebersprungen sind: ' + (uebersprungen.join('; ') || 'nichts'), (t) => {
   for (const teil of uebersprungen) t.diagnostic('uebersprungen: ' + teil);

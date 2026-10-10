@@ -245,14 +245,17 @@ test('K2: Formularart, Pfade, Seiten-URLs, Mess-IDs und Ereignisname', () => {
   }
 });
 
-test('K2: ADS_SEND_TO ist leer (kein Conversion-Aufruf) oder ein Label des eigenen Kontos', () => {
-  // Leer ist der Stand von Segment 0. Die Verdrahtung traegt das Label ein, sobald die
-  // Aktion im Konto existiert; eine fremde Konto-ID bleibt verboten.
+test('K2: ADS_SEND_TO ist das Label der eigenen Conversion-Aktion im eigenen Konto', () => {
+  // Geaenderte Erwartung: in Segment 0 durfte der Wert leer sein, weil die Aktion im Konto
+  // noch fehlte. Die Verdrahtung hat das Label eingetragen (K2); leer hiesse jetzt, dass die
+  // Kampagne ohne Zaehlung laeuft, also ist leer ab hier ein Fehler. Eine fremde Konto-ID
+  // bleibt verboten, und das Label des Abschnitts auf /zurich/ (js/longstay-config.js) gehoert
+  // zu einer anderen Aktion und darf hier nicht stehen.
   assert.equal(typeof config.ADS_SEND_TO, 'string');
-  if (config.ADS_SEND_TO !== '') {
-    assert.match(config.ADS_SEND_TO, /^AW-702540316\/[A-Za-z0-9_-]+$/);
-    assert.equal(config.ADS_SEND_TO.split('/')[0], config.ADS_ID);
-  }
+  assert.match(config.ADS_SEND_TO, /^AW-702540316\/[A-Za-z0-9_-]+$/);
+  assert.equal(config.ADS_SEND_TO.split('/')[0], config.ADS_ID);
+  const abschnitt = require(join(root, 'js', 'longstay-config.js'));
+  assert.notEqual(config.ADS_SEND_TO, abschnitt.ADS_SEND_TO);
 });
 
 test('K2: Telefon ist die Nummer aus dem JSON-LD von zurich/index.html, Adresse ist sales', () => {

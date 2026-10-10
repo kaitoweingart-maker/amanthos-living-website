@@ -374,6 +374,23 @@ test('K4: mit Einwilligung und gesetztem ADS_SEND_TO feuert die Conversion, mit 
   }
 });
 
+// Verdrahtung: seit das Label in js/glattbrugg-config.js steht, laeuft der Aufruf mit dem
+// echten Wert. Ohne zweites Argument nimmt leadEvents die Konfiguration, die das Skript selbst
+// laedt, also genau den Weg der Seite nach einer Antwort 200.
+test('K4: das Label aus der Konfiguration feuert genau einmal mit Einwilligung, nie ohne', () => {
+  assert.equal(config.ADS_SEND_TO, 'AW-702540316/rBzHCJbBgJgdEJzU_84C');
+  const mit = fakeWindow();
+  mitFenster(mit, () => page.leadEvents(PAYLOAD()));
+  assert.deepEqual(events(mit).filter((c) => c[1] === 'conversion').map((c) => c[2]),
+    [{ send_to: config.ADS_SEND_TO }]);
+  for (const consent of ['denied', null, 'unbekannt']) {
+    const ohne = fakeWindow({ consent });
+    mitFenster(ohne, () => page.leadEvents(PAYLOAD()));
+    assert.equal(events(ohne).filter((c) => c[1] === 'conversion').length, 0, String(consent));
+    assert.equal(events(ohne).filter((c) => c[1] === 'generate_lead').length, 1, String(consent));
+  }
+});
+
 test('K4: Meta Lead mit eventID gleich event_id und content_name aus der Konfiguration', () => {
   const w = fakeWindow();
   mitFenster(w, () => page.leadEvents(PAYLOAD(), { CONTENT_NAME: config.CONTENT_NAME }));

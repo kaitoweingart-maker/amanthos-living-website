@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <!-- Content-Security-Policy, wortgleich aus nyon-louer/index.html uebernommen.
+       Muss als ERSTES im head stehen, sonst greift sie fuer bereits geparste Elemente nicht. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://browser.sentry-cdn.com https://www.googletagmanager.com https://plausible.io https://connect.facebook.net https://www.gstatic.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://amanthos-website-api.onrender.com https://plausible.io https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://o4511372064915456.ingest.de.sentry.io https://www.facebook.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://pagead2.googlesyndication.com https://ad.doubleclick.net https://www.google.ch https://www.google.de https://www.google.at https://www.google.fr https://www.google.it https://www.google.co.uk; worker-src 'self' blob:; frame-src https://td.doubleclick.net; form-action 'self'; base-uri 'self'; object-src 'none'">
+
+  <!-- Consent Mode v2 vor gtag, danach Meta. Reihenfolge wie auf den Nyon-Seiten. -->
+  <script src="../js/consent.js"></script>
+  <script defer src="../js/meta.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8LPLG0BPJ6');
+    gtag('config', 'AW-702540316');
+    (function () {
+      var geholt = false;
+      function laden() {
+        if (geholt) return;
+        geholt = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-8LPLG0BPJ6';
+        (document.head || document.documentElement).appendChild(s);
+      }
+      var wahl = null;
+      try { wahl = window.localStorage.getItem('am_consent_analytics'); } catch (e) { /* Privatmodus */ }
+      if (wahl !== 'denied') { laden(); }
+      document.addEventListener('am:consent-change', function (e) {
+        if (e && e.detail && e.detail.state === 'granted') { laden(); }
+      });
+    })();
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suite auf Zeit am Flughafen Zürich: Longstay bis 89 Nächte | Amanthos Living</title>
+  <meta name="description" content="Möblierte Suiten in Glattbrugg, 1 km zum Flughafen Zürich. Hotelaufenthalt von 30 bis höchstens 89 Nächten, Endreinigung inklusive, digitaler Check-in rund um die Uhr.">
+  <!-- Bis zur Freigabe nicht indexierbar; die Verdrahtung stellt nach der Freigabe um. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.amanthosliving.com/longstay-zuerich-flughafen/">
+  <link rel="alternate" hreflang="de" href="https://www.amanthosliving.com/longstay-zuerich-flughafen/">
+  <link rel="alternate" hreflang="en" href="https://www.amanthosliving.com/long-stay-zurich-airport/">
+  <link rel="alternate" hreflang="x-default" href="https://www.amanthosliving.com/long-stay-zurich-airport/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_CH">
+  <meta property="og:title" content="Suite auf Zeit am Flughafen Zürich: Longstay bis 89 Nächte | Amanthos Living">
+  <meta property="og:description" content="Hotelaufenthalt von 30 bis höchstens 89 Nächten in Glattbrugg, 1 km zum Flughafen Zürich. Endreinigung inklusive, digitaler Check-in rund um die Uhr.">
+  <meta property="og:image" content="https://www.amanthosliving.com/images/zurich/hero.webp">
+  <meta property="og:url" content="https://www.amanthosliving.com/longstay-zuerich-flughafen/">
+
+  <link rel="icon" href="../images/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/PlayfairDisplay.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
+  <style>@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 700;font-display:swap;src:url(/assets/fonts/PlayfairDisplay.woff2) format('woff2')}@font-face{font-family:'Inter';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/Inter.woff2) format('woff2')}</style>
+  <link rel="preload" as="image" type="image/webp" href="../images/zurich/hero.webp" fetchpriority="high">
+  <link rel="preload" href="../css/style.css" as="style">
+  <link rel="stylesheet" href="../css/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="../css/style.css"></noscript>
+  <!-- Die Klassen g-hero, g-form, g-status und g-success stammen aus grenchen.css, sie sind
+       nicht ortsgebunden. Die acht gb-Klassen (Karten, Preiszeilen, Leistungsliste) stehen
+       in glattbrugg.css. -->
+  <link rel="stylesheet" href="../css/grenchen.css">
+  <link rel="stylesheet" href="../css/glattbrugg.css">
+  <style>*{margin:0;padding:0;box-sizing:border-box}:root{--color-bg:#FAF8F5;--color-bg-alt:#F3EDE7;--color-primary:#1A2B4A;--color-accent:#886714;--color-text:#2D2D3A;--color-text-muted:#4A4A5A;--color-surface:#FFF;--color-border:#E8E2DA;--color-success:#2D7A5F;--color-success-bg:#ECFDF5;--font-heading:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--radius:12px;--radius-sm:8px;--radius-lg:16px;--radius-full:9999px;--shadow-sm:0 1px 3px rgba(0,0,0,.04)}body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}img{max-width:100%;height:auto;display:block}[hidden]{display:none !important}.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.06)}.nav-logo{font-family:var(--font-heading);font-size:1.4rem;color:var(--color-primary);text-decoration:none;font-weight:600}.nav-links{display:flex;gap:2rem;align-items:center;list-style:none}.nav-links a{color:var(--color-text);text-decoration:none;font-size:.875rem;font-weight:500}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.sr-only-focusable:focus{position:static;width:auto;height:auto;padding:.5rem 1rem;margin:0;overflow:visible;clip:auto;white-space:normal;background:var(--color-accent);color:#fff;z-index:1000}@media(max-width:768px){.nav-links{display:none}}</style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "Amanthos Living Zurich Airport",
+    "url": "https://www.amanthosliving.com/longstay-zuerich-flughafen/",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Oberhauserstrasse 30",
+      "postalCode": "8152",
+      "addressLocality": "Glattbrugg",
+      "addressCountry": "CH"
+    }
+  }
+  </script>
+
+  <script src="https://browser.sentry-cdn.com/10.68.0/bundle.tracing.min.js" crossorigin="anonymous" defer></script>
+  <script src="../js/sentry-init.js" defer></script>
+  <!-- Reichweitenmessung ohne Cookies durch Plausible -->
+  <script async src="https://plausible.io/js/pa-mc5nRTWoiejRsYUjlX_QM.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+  <a href="#main" class="sr-only sr-only-focusable">Zum Hauptinhalt springen</a>
+
+  <nav class="nav">
+    <a href="../" class="nav-logo">Amanthos Living</a>
+    <ul class="nav-links">
+      <li><a href="#suiten">Suiten</a></li>
+      <li><a href="#anfrage">Anfrage</a></li>
+      <li><a href="#lage">Lage</a></li>
+      <li><a href="#faq">Fragen</a></li>
+      <li><a href="../long-stay-zurich-airport/" lang="en" hreflang="en">English</a></li>
+    </ul>
+  </nav>
+
+  <main id="main">
+    <section class="g-hero">
+      <img class="g-hero-img" src="../images/zurich/hero.webp" width="1200" height="798" fetchpriority="high" alt="">
+      <div class="g-hero-veil"></div>
+      <div class="g-hero-inner">
+        <p class="section-label">Glattbrugg, 1 km zum Flughafen Zürich</p>
+        <h1>Suite auf Zeit am Flughafen Zürich</h1>
+        <p>Hotelaufenthalt von 30 bis höchstens 89 Nächten. Möblierte Suite mit voll ausgestatteter Küche, Arbeitsplatz mit Schreibtisch, Smart TV und schnellem WLAN.</p>
+        <a href="#anfrage" class="btn btn-accent btn-lg">Suite anfragen</a>
+      </div>
+    </section>
+
+    <section class="section" id="suiten">
+      <div class="container">
+        <p class="section-label">Suiten</p>
+        <h2 class="section-title">Unsere Suiten für Ihren Aufenthalt</h2>
+        <p class="section-subtitle">Jede Suite ist möbliert und hat eine voll ausgestattete Küche, einen Arbeitsplatz mit Schreibtisch, Smart TV und schnelles WLAN.</p>
+
+        <div id="gb-cards" class="gb-cards"></div>
+        <p id="gb-price-note" class="gb-note"></p>
+        <noscript>
+          <p class="gb-note">Preise auf Anfrage: <a href="tel:+41415629700">+41 41 562 97 00</a> oder <a href="mailto:sales@amanthosliving.com">sales@amanthosliving.com</a>.</p>
+        </noscript>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr));gap:1rem;margin-top:2rem">
+          <img src="../images/zurich/kitchen.webp" alt="Küchenzeile einer Suite mit Esstisch" width="1200" height="798" loading="lazy" style="border-radius:var(--radius)">
+          <img src="../images/zurich/bedroom.webp" alt="Schlafbereich einer Suite mit Doppelbett" width="1200" height="798" loading="lazy" style="border-radius:var(--radius)">
+        </div>
+
+        <ul class="gb-facts">
+          <li>Hotelaufenthalt von 30 bis höchstens 89 Nächten.</li>
+          <li>Die Endreinigung ist inklusive.</li>
+          <li>Bettwäsche und Handtücher liegen bei der Anreise bereit.</li>
+          <li>Reinigung und Wäschetausch während des Aufenthalts können Sie gegen Aufpreis dazubuchen.</li>
+          <li>Bei der Anreise füllen Sie den Meldeschein aus.</li>
+          <li>Digitaler Check-in rund um die Uhr.</li>
+          <li>Preise brutto, inkl. 3.8 % MWST.</li>
+          <li>Im Haus gibt es keine Waschküche.</li>
+          <li>Privater Parkplatz, CHF 10 pro Tag.</li>
+          <li>Firmen: ab vier Suiten Konditionen auf Anfrage.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="anfrage">
+      <div class="container container-narrow">
+        <p class="section-label">Anfrage</p>
+        <h2 class="section-title">Suite anfragen</h2>
+        <p class="section-subtitle">Nennen Sie uns Kategorie, Anreisemonat und Dauer. Wir melden uns persönlich bei Ihnen.</p>
+
+        <form id="gb-form" class="g-form" novalidate>
+          <div class="form-grid">
+            <div class="form-field"><label for="gb-name">Name</label><input type="text" id="gb-name" name="name" autocomplete="name" required></div>
+            <div class="form-field"><label for="gb-email">E-Mail</label><input type="email" id="gb-email" name="email" autocomplete="email" required></div>
+            <div class="form-field"><label for="gb-phone">Telefon</label><input type="tel" id="gb-phone" name="phone" autocomplete="tel"></div>
+            <div class="form-field"><label for="gb-company">Firma (optional)</label><input type="text" id="gb-company" name="company" autocomplete="organization"></div>
+            <div class="form-field"><label for="gb-unit">Kategorie</label><select id="gb-unit" name="unit"><option value="">Noch offen</option></select></div>
+            <div class="form-field"><label for="gb-arrival">Anreise ab</label><input type="month" id="gb-arrival" name="arrival_month"></div>
+            <div class="form-field"><label for="gb-duration">Dauer</label><select id="gb-duration" name="duration_months">
+              <option value="">Noch offen</option>
+              <option value="1">30 bis 59 Nächte</option>
+              <option value="2">60 bis 75 Nächte</option>
+              <option value="3">bis höchstens 89 Nächte</option>
+            </select></div>
+            <div class="form-field"><label for="gb-persons">Personen</label><select id="gb-persons" name="persons">
+              <option value="1">1 Person</option>
+              <option value="2">2 Personen</option>
+              <option value="3">3 Personen</option>
+            </select></div>
+            <div class="form-field"><label for="gb-message">Nachricht</label><textarea id="gb-message" name="message" rows="4"></textarea></div>
+          </div>
+          <!-- Honigtopf: fuer Menschen unsichtbar und nicht anwaehlbar, Bots fuellen ihn. -->
+          <div class="hp" aria-hidden="true">
+            <label for="gb-company-website">Firmenwebsite, bitte leer lassen</label>
+            <input type="text" class="hp" id="gb-company-website" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+          <button type="submit" id="gb-submit" class="btn btn-accent btn-lg">Anfrage senden</button>
+          <p class="g-note">Wir verwenden Ihre Angaben, um Ihre Anfrage zu bearbeiten. Mehr in der <a href="../privacy/" hreflang="en">Datenschutzerklärung</a> (auf Englisch).</p>
+        </form>
+        <p id="gb-status" class="g-status" role="status"></p>
+        <div id="gb-success" class="g-success" hidden></div>
+      </div>
+    </section>
+
+    <section class="section" id="lage">
+      <div class="container">
+        <p class="section-label">Lage</p>
+        <h2 class="section-title">Oberhauserstrasse 30, 8152 Glattbrugg</h2>
+        <ul class="gb-facts">
+          <li><strong>Flughafen Zürich:</strong> 1 km</li>
+          <li><strong>Zürich HB:</strong> 9.4 km</li>
+          <li><strong>Glatt:</strong> 0.8 km</li>
+          <li><strong>ETH:</strong> 11 km</li>
+          <li><strong>Im Haus:</strong> Lift im Haus. Privater Parkplatz, CHF 10 pro Tag.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="faq">
+      <div class="container container-narrow">
+        <p class="section-label">Fragen</p>
+        <h2 class="section-title">Gut zu wissen</h2>
+        <ul class="gb-facts">
+          <li><strong>Wie lange dauert ein Aufenthalt?</strong> Hotelaufenthalt von 30 bis höchstens 89 Nächten.</li>
+          <li><strong>Ist die Endreinigung inklusive?</strong> Die Endreinigung ist inklusive.</li>
+          <li><strong>Was liegt bei der Anreise bereit?</strong> Bettwäsche und Handtücher liegen bei der Anreise bereit.</li>
+          <li><strong>Gibt es Reinigung während des Aufenthalts?</strong> Während des Aufenthalts keine Reinigung und kein Wäschetausch. Reinigung und Wäschetausch während des Aufenthalts können Sie gegen Aufpreis dazubuchen.</li>
+          <li><strong>Wie läuft die Anreise?</strong> Digitaler Check-in rund um die Uhr. Bei der Anreise füllen Sie den Meldeschein aus.</li>
+          <li><strong>Gibt es eine Waschküche?</strong> Im Haus gibt es keine Waschküche.</li>
+          <li><strong>Wie wird bezahlt?</strong> Zahlung im Voraus je 30 Tage. Preise brutto, inkl. 3.8 % MWST.</li>
+          <li><strong>Gibt es einen Parkplatz?</strong> Privater Parkplatz, CHF 10 pro Tag.</li>
+          <li><strong>Was gilt für Firmen?</strong> Firmen: ab vier Suiten Konditionen auf Anfrage.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="kontakt">
+      <div class="container container-narrow">
+        <p class="section-label">Kontakt</p>
+        <h2 class="section-title">Fragen vor der Anfrage</h2>
+        <p>Telefon <a href="tel:+41415629700">+41 41 562 97 00</a>, E-Mail <a href="mailto:sales@amanthosliving.com">sales@amanthosliving.com</a></p>
+        <p>Oberhauserstrasse 30, 8152 Glattbrugg</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Amanthos Living AG · Oberhauserstrasse 30, 8152 Glattbrugg</p>
+      <p><a href="../privacy/" hreflang="en">Datenschutz</a> (auf Englisch) · <button type="button" id="gb-consent">Cookie-Einstellungen</button></p>
+    </div>
+  </footer>
+
+  <script defer src="../js/glattbrugg-config.js"></script>
+  <script defer src="../js/glattbrugg-units.js"></script>
+  <script defer src="../js/glattbrugg-page.js"></script>
+  <script src="../js/anruf.js" defer></script>
+</body>
+</html>

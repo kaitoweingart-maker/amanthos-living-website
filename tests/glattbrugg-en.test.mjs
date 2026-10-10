@@ -73,6 +73,9 @@ const K7_EN = {
   10: 'Oberhauserstrasse 30, 8152 Glattbrugg; lift in the building',
   11: '1 km to Zurich Airport, 9.4 km to Zurich main station, 0.8 km to Glatt, 11 km to ETH',
   12: 'Private parking, CHF 10 per day',
+  // Nr 14 fehlte hier, solange die Seite sie nicht nannte; seit dem Abgleich mit der
+  // deutschen Seite steht sie in Leistungsliste und FAQ.
+  14: 'No cleaning and no linen change during the stay',
   15: 'Payment in advance for each 30 days',
   16: 'Companies: terms for four suites or more on request'
 };

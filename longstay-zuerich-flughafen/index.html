@@ -64,7 +64,9 @@
        in glattbrugg.css. -->
   <link rel="stylesheet" href="../css/grenchen.css">
   <link rel="stylesheet" href="../css/glattbrugg.css">
-  <style>*{margin:0;padding:0;box-sizing:border-box}:root{--color-bg:#FAF8F5;--color-bg-alt:#F3EDE7;--color-primary:#1A2B4A;--color-accent:#886714;--color-text:#2D2D3A;--color-text-muted:#4A4A5A;--color-surface:#FFF;--color-border:#E8E2DA;--color-success:#2D7A5F;--color-success-bg:#ECFDF5;--font-heading:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--radius:12px;--radius-sm:8px;--radius-lg:16px;--radius-full:9999px;--shadow-sm:0 1px 3px rgba(0,0,0,.04)}body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}img{max-width:100%;height:auto;display:block}[hidden]{display:none !important}.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.06)}.nav-logo{font-family:var(--font-heading);font-size:1.4rem;color:var(--color-primary);text-decoration:none;font-weight:600}.nav-links{display:flex;gap:2rem;align-items:center;list-style:none}.nav-links a{color:var(--color-text);text-decoration:none;font-size:.875rem;font-weight:500}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.sr-only-focusable:focus{position:static;width:auto;height:auto;padding:.5rem 1rem;margin:0;overflow:visible;clip:auto;white-space:normal;background:var(--color-accent);color:#fff;z-index:1000}@media(max-width:768px){.nav-links{display:none}}</style>
+  <!-- Kritisches CSS wie auf den Nyon-Seiten, dazu Footer und Einwilligungsknopf (gb-consent hat
+       in den gemeinsamen Dateien keine Regel). -->
+  <style>*{margin:0;padding:0;box-sizing:border-box}:root{--color-bg:#FAF8F5;--color-bg-alt:#F3EDE7;--color-primary:#1A2B4A;--color-accent:#886714;--color-text:#2D2D3A;--color-text-muted:#4A4A5A;--color-surface:#FFF;--color-border:#E8E2DA;--color-success:#2D7A5F;--color-success-bg:#ECFDF5;--font-heading:'Playfair Display',Georgia,serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--radius:12px;--radius-sm:8px;--radius-lg:16px;--radius-full:9999px;--shadow-sm:0 1px 3px rgba(0,0,0,.04)}body{font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}img{max-width:100%;height:auto;display:block}[hidden]{display:none !important}.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.06)}.nav-logo{font-family:var(--font-heading);font-size:1.4rem;color:var(--color-primary);text-decoration:none;font-weight:600}.nav-links{display:flex;gap:2rem;align-items:center;list-style:none}.nav-links a{color:var(--color-text);text-decoration:none;font-size:.875rem;font-weight:500}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.sr-only-focusable:focus{position:static;width:auto;height:auto;padding:.5rem 1rem;margin:0;overflow:visible;clip:auto;white-space:normal;background:var(--color-accent);color:#fff;z-index:1000}.footer{background:var(--color-primary);color:rgba(255,255,255,.8);padding:2.5rem 0}.footer a{color:rgba(255,255,255,.9);text-decoration:underline}#gb-consent{min-height:44px;padding:.5rem;background:none;border:0;font:inherit;font-size:.8rem;color:rgba(255,255,255,.8);text-decoration:underline;cursor:pointer}@media(max-width:768px){.nav-links{display:none}}</style>
 
   <script type="application/ld+json">
   {
@@ -107,13 +109,17 @@
 
   <main id="main">
     <section class="g-hero">
-      <img class="g-hero-img" src="../images/zurich/hero.webp" width="1200" height="798" fetchpriority="high" alt="">
+      <img class="g-hero-img" src="../images/zurich/hero.webp" width="1200" height="798" fetchpriority="high"
+           alt="Sitzbereich einer möblierten Suite mit Sofa und TV, Schlafzimmer durch die offene Tür sichtbar">
       <div class="g-hero-veil"></div>
       <div class="g-hero-inner">
-        <p class="section-label">Glattbrugg, 1 km zum Flughafen Zürich</p>
+        <p>Glattbrugg, 1 km zum Flughafen Zürich</p>
         <h1>Suite auf Zeit am Flughafen Zürich</h1>
         <p>Hotelaufenthalt von 30 bis höchstens 89 Nächten. Möblierte Suite mit voll ausgestatteter Küche, Arbeitsplatz mit Schreibtisch, Smart TV und schnellem WLAN.</p>
-        <a href="#anfrage" class="btn btn-accent btn-lg">Suite anfragen</a>
+        <div class="g-cta-row">
+          <a href="#anfrage" class="btn btn-accent btn-lg">Suite anfragen</a>
+          <a href="tel:+41415629700" class="btn btn-outline btn-lg">Anrufen: +41 41 562 97 00</a>
+        </div>
       </div>
     </section>
 
@@ -129,13 +135,9 @@
           <p class="gb-note">Preise auf Anfrage: <a href="tel:+41415629700">+41 41 562 97 00</a> oder <a href="mailto:sales@amanthosliving.com">sales@amanthosliving.com</a>.</p>
         </noscript>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(16rem,100%),1fr));gap:1rem;margin-top:2rem">
-          <img src="../images/zurich/kitchen.webp" alt="Küchenzeile einer Suite mit Esstisch" width="1200" height="798" loading="lazy" style="border-radius:var(--radius)">
-          <img src="../images/zurich/bedroom.webp" alt="Schlafbereich einer Suite mit Doppelbett" width="1200" height="798" loading="lazy" style="border-radius:var(--radius)">
-        </div>
-
         <ul class="gb-facts">
           <li>Hotelaufenthalt von 30 bis höchstens 89 Nächten.</li>
+          <li>Während des Aufenthalts keine Reinigung und kein Wäschetausch.</li>
           <li>Die Endreinigung ist inklusive.</li>
           <li>Bettwäsche und Handtücher liegen bei der Anreise bereit.</li>
           <li>Reinigung und Wäschetausch während des Aufenthalts können Sie gegen Aufpreis dazubuchen.</li>
@@ -143,6 +145,7 @@
           <li>Digitaler Check-in rund um die Uhr.</li>
           <li>Preise brutto, inkl. 3.8 % MWST.</li>
           <li>Im Haus gibt es keine Waschküche.</li>
+          <li>Zahlung im Voraus je 30 Tage.</li>
           <li>Privater Parkplatz, CHF 10 pro Tag.</li>
           <li>Firmen: ab vier Suiten Konditionen auf Anfrage.</li>
         </ul>
@@ -222,7 +225,7 @@
     </section>
 
     <section class="section" id="kontakt">
-      <div class="container container-narrow">
+      <div class="container container-narrow g-kontakt">
         <p class="section-label">Kontakt</p>
         <h2 class="section-title">Fragen vor der Anfrage</h2>
         <p>Telefon <a href="tel:+41415629700">+41 41 562 97 00</a>, E-Mail <a href="mailto:sales@amanthosliving.com">sales@amanthosliving.com</a></p>
@@ -234,7 +237,7 @@
   <footer class="footer">
     <div class="container">
       <p>Amanthos Living AG · Oberhauserstrasse 30, 8152 Glattbrugg</p>
-      <p><a href="../privacy/" hreflang="en" style="color:#fff;text-decoration:underline">Datenschutz</a> (auf Englisch) · <button type="button" id="gb-consent">Cookie-Einstellungen</button></p>
+      <p><a href="../privacy/" hreflang="en">Datenschutz</a> (auf Englisch) · <a href="../long-stay-zurich-airport/" lang="en" hreflang="en">English</a> · <button type="button" id="gb-consent">Cookie-Einstellungen</button></p>
     </div>
   </footer>
 

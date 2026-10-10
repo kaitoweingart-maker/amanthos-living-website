@@ -419,3 +419,13 @@ test('der Quelltext liest gclid und fbclid nur ueber amMeta.tracking()', () => {
   // readCampaign kennt nur die drei utm-Schluessel
   assert.deepEqual(Object.keys(page.readCampaign('?gclid=a&fbclid=b')), ['utm_source', 'utm_medium', 'utm_campaign']);
 });
+
+// Der Klick auf eine Telefonnummer wird allein von js/anruf.js gemeldet (phone_click mit
+// page_path). Ein zweites Ereignis aus dem Seitenskript zaehlte denselben Klick doppelt.
+test('K4: das Seitenskript meldet kein eigenes phone_click, das macht js/anruf.js', async () => {
+  const { readFileSync } = await import('node:fs');
+  const quelle = readFileSync(new URL('../js/glattbrugg-page.js', import.meta.url), 'utf8');
+  const anruf = readFileSync(new URL('../js/anruf.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(quelle, /\(\s*'phone_click'/);
+  assert.match(anruf, /ga4\('phone_click', \{ page_path: pfad \}\)/);
+});

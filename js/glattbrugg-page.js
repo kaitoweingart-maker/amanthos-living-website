@@ -376,10 +376,8 @@
       try { if (window.amConsent) { window.amConsent.open(); } } catch (e) { /* nie werfen */ }
     });
 
-    on(document, 'click', function (ev) {
-      var link = (ev.target && ev.target.closest) ? ev.target.closest('a[href^="tel:"]') : null;
-      if (link) { ga4('phone_click', { lead_form: 'glattbrugg' }); }
-    });
+    // Kein eigenes phone_click: js/anruf.js meldet jeden Klick auf einen tel:-Verweis
+    // bereits mit page_path, ein zweites Ereignis zaehlte denselben Klick doppelt.
   }
 
   if (typeof document !== 'undefined') {

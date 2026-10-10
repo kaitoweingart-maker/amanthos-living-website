@@ -1,0 +1,52 @@
+/**
+ * Amanthos Living: Seiten longstay-zuerich-flughafen und long-stay-zurich-airport
+ * (Bauplan glattbrugg-longstay, Segment 0, Kontrakt K5).
+ *
+ * Nur die acht Klassen, die css/style.css und css/grenchen.css nicht haben:
+ * Kartenraster, Karte, Preiszeilen, Leistungsliste, Hinweis. Eingebunden nach
+ * grenchen.css. Farben nur aus den Variablen von style.css, damit die dort
+ * gemessenen Kontraste gelten. Keine Zahl aus K1: die Karten fuellt
+ * js/glattbrugg-page.js zur Laufzeit.
+ */
+
+/* min(18rem,100%) statt 18rem: sonst erzwingt die Spalte auf einem 360-px-Geraet
+   eine breitere Zeile als das Fenster und die Seite scrollt waagrecht. */
+.gb-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.gb-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.gb-card-body { padding: 1.25rem; }
+.gb-card-body h3 { font-family: var(--font-heading); color: var(--color-primary); }
+.gb-price {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 0.5rem;
+}
+.gb-night,
+.gb-meta {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+.gb-facts { list-style: none; margin-top: 1.5rem; }
+.gb-facts li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.95rem;
+}
+.gb-note {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-top: 1rem;
+}

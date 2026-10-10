@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Test-Harness fuer die Browserpruefung (Deep-Link K7, Grenchen K8, Wohnen auf
-Zeit und Nyon FR nach K9 des Plans living-wohnen-nyon-fr).
+Zeit und Nyon FR nach K9 des Plans living-wohnen-nyon-fr, Glattbrugg Longstay
+nach K14 des Plans glattbrugg-longstay).
 
 Serviert das Repo-Verzeichnis und schreibt beim Ausliefern ausschliesslich im
 Speicher um: API-Host auf die gleiche Origin, Script-Tag fuer deeplink.js vor
@@ -54,6 +55,12 @@ STUBBED_PAGES = {
     "/tests/fixtures/longstay-skeleton.html": os.path.join("tests", "fixtures", "longstay-skeleton.html"),
     "/appartements-nyon/": os.path.join("appartements-nyon", "index.html"),
     "/appartements-nyon/index.html": os.path.join("appartements-nyon", "index.html"),
+    # Glattbrugg Longstay (K14 des Plans glattbrugg-longstay): zwei Seiten und das Skelett.
+    "/longstay-zuerich-flughafen/": os.path.join("longstay-zuerich-flughafen", "index.html"),
+    "/longstay-zuerich-flughafen/index.html": os.path.join("longstay-zuerich-flughafen", "index.html"),
+    "/long-stay-zurich-airport/": os.path.join("long-stay-zurich-airport", "index.html"),
+    "/long-stay-zurich-airport/index.html": os.path.join("long-stay-zurich-airport", "index.html"),
+    "/tests/fixtures/glattbrugg-skeleton.html": os.path.join("tests", "fixtures", "glattbrugg-skeleton.html"),
 }
 GRENCHEN_STUB = (
     "<script>"

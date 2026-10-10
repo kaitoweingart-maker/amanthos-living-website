@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Skelett Glattbrugg Longstay (Testfixture)</title>
+  <!--
+    Kleinste Seite, die jede ID aus tests/fixtures/glattbrugg-dom-contract.json
+    genau einmal traegt (Kontrakt K5), mit den Abschnitten in der Reihenfolge des
+    Kontrakts. Segment 3 prueft sein Skript dagegen, solange die zwei Seiten
+    noch fehlen. Kein Produktivcode, keine Gestaltung, nicht verlinken: noindex
+    steht oben.
+
+    Geladen wird, was das Seitenskript braucht, in der Reihenfolge der Seiten:
+    consent.js synchron, meta.js mit defer, gtag ueber dataLayer (der Harness
+    haengt sich davor und sammelt die Aufrufe in window.__gtagCalls), am Ende
+    glattbrugg-config.js, glattbrugg-units.js, glattbrugg-page.js und anruf.js.
+
+    Vom Plausible-Snippet steht hier nur der Teil ohne Netz: die Warteschlange
+    und plausible.init(). Der Lader von plausible.io fehlt bewusst. So bleibt
+    jeder Aufruf plausible('Lead', ...) in window.plausible.q lesbar, und das
+    Fixture zaehlt keinen Seitenaufruf. Der gtag-Lader, Sentry und die CSP
+    fehlen aus demselben Grund; die Seiten tragen sie nach K5.
+
+    Karten, Preishinweis und die Optionen von gb-unit sind leer: das Skript
+    fuellt sie aus js/glattbrugg-units.js. Im HTML steht keine Preiszahl.
+  -->
+  <script src="../../js/consent.js"></script>
+  <script defer src="../../js/meta.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8LPLG0BPJ6');
+    gtag('config', 'AW-702540316');
+  </script>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/grenchen.css">
+  <link rel="stylesheet" href="../../css/glattbrugg.css">
+  <style>[hidden] { display: none !important; }</style>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <ul class="nav-links">
+      <li><a href="#suiten">Suiten</a></li>
+      <li><a href="#anfrage">Anfrage</a></li>
+      <li><a href="#lage">Lage</a></li>
+      <li><a href="#faq">Fragen</a></li>
+      <li><a href="../../long-stay-zurich-airport/" lang="en" hreflang="en">English</a></li>
+    </ul>
+  </nav>
+
+  <main id="main">
+    <section class="g-hero">
+      <div class="container">
+        <p class="section-label">Glattbrugg, 1 km zum Flughafen Zürich</p>
+        <h1>Suite auf Zeit am Flughafen Zürich</h1>
+        <p class="section-subtitle">Hotelaufenthalt von 30 bis höchstens 89 Nächten.</p>
+        <a href="#anfrage" class="btn btn-accent btn-lg">Suite anfragen</a>
+      </div>
+    </section>
+
+    <section class="section" id="suiten">
+      <div class="container">
+        <p class="section-label">Suiten</p>
+        <h2 class="section-title">Kategorien und Preise</h2>
+        <div id="gb-cards" class="gb-cards"></div>
+        <p id="gb-price-note" class="gb-note"></p>
+        <noscript>
+          <p class="gb-note">Preise auf Anfrage: <a href="tel:+41415629700">+41 41 562 97 00</a> oder <a href="mailto:sales@amanthosliving.com">sales@amanthosliving.com</a>.</p>
+        </noscript>
+        <ul class="gb-facts">
+          <li>Die Endreinigung ist inklusive.</li>
+          <li>Bettwäsche und Handtücher liegen bei der Anreise bereit.</li>
+          <li>Reinigung und Wäschetausch während des Aufenthalts können Sie gegen Aufpreis dazubuchen.</li>
+          <li>Bei der Anreise füllen Sie den Meldeschein aus.</li>
+          <li>Digitaler Check-in rund um die Uhr.</li>
+          <li>Preise brutto, inkl. 3.8 % MWST.</li>
+          <li>Im Haus gibt es keine Waschküche.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="anfrage">
+      <div class="container container-narrow">
+        <p class="section-label">Anfrage</p>
+        <h2 class="section-title">Suite anfragen</h2>
+
+        <form id="gb-form" class="g-form" novalidate>
+          <div class="form-grid">
+            <div class="form-field"><label for="gb-name">Name</label><input type="text" id="gb-name" name="name" autocomplete="name" required></div>
+            <div class="form-field"><label for="gb-email">E-Mail</label><input type="email" id="gb-email" name="email" autocomplete="email" required></div>
+            <div class="form-field"><label for="gb-phone">Telefon</label><input type="tel" id="gb-phone" name="phone" autocomplete="tel"></div>
+            <div class="form-field"><label for="gb-company">Firma (optional)</label><input type="text" id="gb-company" name="company" autocomplete="organization"></div>
+            <div class="form-field"><label for="gb-unit">Kategorie</label><select id="gb-unit" name="unit"><option value="">Noch offen</option></select></div>
+            <div class="form-field"><label for="gb-arrival">Anreise ab</label><input type="month" id="gb-arrival" name="arrival_month"></div>
+            <div class="form-field"><label for="gb-duration">Dauer</label><select id="gb-duration" name="duration_months">
+              <option value="">Noch offen</option>
+              <option value="1">30 bis 59 Nächte</option>
+              <option value="2">60 bis 75 Nächte</option>
+              <option value="3">bis höchstens 89 Nächte</option>
+            </select></div>
+            <div class="form-field"><label for="gb-persons">Personen</label><select id="gb-persons" name="persons">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select></div>
+            <div class="form-field"><label for="gb-message">Nachricht</label><textarea id="gb-message" name="message" rows="4"></textarea></div>
+          </div>
+          <!-- Honigtopf: fuer Menschen unsichtbar und nicht anwaehlbar, Bots fuellen ihn. -->
+          <div class="hp" aria-hidden="true">
+            <label for="gb-company-website">Firmenwebsite, bitte leer lassen</label>
+            <input type="text" class="hp" id="gb-company-website" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+          <button type="submit" id="gb-submit" class="btn btn-accent btn-lg">Anfrage senden</button>
+          <p class="g-note">Wir verwenden Ihre Angaben, um Ihre Anfrage zu bearbeiten. Mehr in der <a href="../../privacy/">Datenschutzerklärung</a>.</p>
+        </form>
+        <p id="gb-status" class="g-status" role="status"></p>
+        <div id="gb-success" class="g-success" hidden></div>
+      </div>
+    </section>
+
+    <section class="section" id="lage">
+      <div class="container">
+        <p class="section-label">Lage</p>
+        <h2 class="section-title">Oberhauserstrasse 30, 8152 Glattbrugg</h2>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="faq">
+      <div class="container container-narrow">
+        <p class="section-label">Fragen</p>
+        <h2 class="section-title">Gut zu wissen</h2>
+      </div>
+    </section>
+
+    <section class="section" id="kontakt">
+      <div class="container container-narrow">
+        <p class="section-label">Kontakt</p>
+        <h2 class="section-title">Fragen vor der Anfrage</h2>
+        <p>Telefon <a href="tel:+41415629700">+41 41 562 97 00</a>, E-Mail <a href="mailto:sales@amanthosliving.com">sales@amanthosliving.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Amanthos Living AG · Oberhauserstrasse 30, 8152 Glattbrugg</p>
+      <p><a href="../../privacy/">Datenschutz</a> · <button type="button" id="gb-consent">Cookie-Einstellungen</button></p>
+    </div>
+  </footer>
+
+  <script defer src="../../js/glattbrugg-config.js"></script>
+  <script defer src="../../js/glattbrugg-units.js"></script>
+  <script defer src="../../js/glattbrugg-page.js"></script>
+  <script src="../../js/anruf.js" defer></script>
+</body>
+</html>

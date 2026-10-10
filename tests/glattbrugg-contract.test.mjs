@@ -349,6 +349,11 @@ test('K14: das Skelett traegt jede ID genau einmal, ist deutsch und noindex', ()
 
 test('K14: das Skelett hat die Abschnitte in der Reihenfolge des Kontrakts', () => {
   pruefeAbschnitte(skeleton, 'Skelett');
+  // Das Skelett verlinkt keine der zwei Seiten: solange eine fehlt, waere das ein toter Link
+  // im Linkcheck der Quality-CI (so geschehen am 10.10.2026 nach dem Merge von Segment 0).
+  for (const lang of ['de', 'en']) {
+    assert.ok(!skeleton.includes('href="../../' + dirname(dom.pages[lang]) + '/'), dom.pages[lang]);
+  }
 });
 
 test('K14: die Felder im Skelett tragen Tag, Attribute, Optionen, Label und Honigtopf des Kontrakts', () => {
